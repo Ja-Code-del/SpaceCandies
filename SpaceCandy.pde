@@ -1,10 +1,11 @@
 /*JEU D'OBJET A EVITER
  ET QUI TOMBE DU CIEL************/
 
-Rain[] rains = new Rain[70];
+Rain[] rains = new Rain[170];
 Player pion;
 FuelBar energy;
 Button restartButton;
+Button quitButton;
 PImage wallpaper;
 PFont nasa;
 PFont fontForEnd;
@@ -20,7 +21,8 @@ void setup(){
   wallpaper = loadImage("space.jpg");
   nasa = createFont("nasaFont.ttf",100);
   fontForEnd = createFont("HelveticaNeue", 70);
-  restartButton  = new Button("Restart",width/2,2*height/3,40); //text x y h
+  restartButton  = new Button("RESTART",2*width/3,2*height/3,60,#1FFF2F,#ffffff); //text x y h
+  quitButton  = new Button("QUIT",width/3,2*height/3,60,#FC1929,#ffffff);
   /*Initialize the rains*/  
   for(int i = 0; i < rains.length; i++){
    rains[i] = new Rain(); 
@@ -35,7 +37,7 @@ void setup(){
   rainColor = #7F00FF;
   
   //booleans initial
-  end = false;
+  end = true;
   pause = false;
   start = true;
   info = false;
@@ -177,7 +179,9 @@ void gameOver(FuelBar f){
  textSize(100);
  text("GAME OVER",width/2,height/6);
  restartButton.displayButton();
+ quitButton.displayButton();
  //INSERER LE SCORE FINAL ICI AVEC LE FONT FONTFOR END
+ fill(#190019);
  textFont(fontForEnd);
  textSize(30);
  text("Score : "+ pion.score,width/2,height/2);

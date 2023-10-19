@@ -1,29 +1,26 @@
 class Button {
  String text;
  float x,y,h,w;
-  Button(String $text, float $x, float $y, float $h){
+ color btColor,txtColor;
+  Button(String $text, float $x, float $y, float $h, color $btColor,color $txtColor){
     text = (" "+$text+" ");
     x = $x;
     y = $y;
     h = $h;
     w = 4*textWidth(text);
+    btColor = $btColor;
+    txtColor = $txtColor;
     
   }
   void displayButton(){
-   //float k = textWidth(text);
-   pushMatrix();
-   fill(120);
-   translate(-10,10);
-   rect(x,y,w,h,75);
-   popMatrix();
-   fill(#FFFFFF);
+   textFont(fontForEnd);
+   fill(btColor);
    stroke(#202124);
    rectMode(CENTER);
-   rect(x,y,w,h,75);
-   fill(#000000);
+   rect(x,y,w,h,80);
+   fill(txtColor);
    textAlign(CENTER,CENTER);
    textSize(25);
-   //textSize(9*h/10);
    text(text,x,y);
   }
   
