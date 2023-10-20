@@ -9,17 +9,20 @@ Button restartButton;
 Button quitButton;
 Button startButton;
 Button infoButton;
-PImage wallpaper;
+
 PFont nasa;
 PFont fontForEnd;
 PFont title;
+
 color bgColor;
 color playerColor;
 color rainColor;
+
 boolean end;
 boolean start;
 boolean pause;
 boolean info;
+
 float k;
 
 /************ THE SETUP NOW************
@@ -268,5 +271,5 @@ void startMotion(){
   void mousePressed(){
    if(startButton.isClicked()){
      start = false;
-   }
+   }else if(infoButton.
   }
