@@ -20,7 +20,6 @@ boolean end;
 boolean start;
 boolean pause;
 boolean info;
-//the translation coefficient for the  Button.shadowAnime method
 float k;
 
 /************ THE SETUP NOW************
@@ -53,12 +52,15 @@ void setup(){
   rainColor = #7F00FF;
   
   //booleans initial
-  end = true;
+  end = false;
   pause = false;
   start = true;
   info = false;
 }
 
+/****************************************************/
+/************* the mighty DRAW() method**************/
+/***************************************************/
 void draw(){
   
   /********** When you press "pause"********/
@@ -263,3 +265,8 @@ void startMotion(){
    }
   }
   // UTILISATION DE MOUSEPRESSED
+  void mousePressed(){
+   if(startButton.isClicked()){
+     start = false;
+   }
+  }

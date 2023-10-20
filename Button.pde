@@ -41,9 +41,9 @@ class Button {
      boolean cursorIsOn = ((mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2));
      boolean cursorIsOff = !((mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2));
      if(cursorIsOn){
-      cursor(HAND);
+      cursor(HAND); //set the cursor image on hand
       if(transCoeff < 10){ 
-      transCoeff += 0.2;
+      transCoeff += 0.3;
     }else{
       transCoeff = 10;
       cursor(ARROW);
@@ -55,7 +55,6 @@ class Button {
     popMatrix();
     }
     if(cursorIsOff){
-      cursor(ARROW); // SET DEFAULT CURSOR IMAGE
       transCoeff = 0;
     }
   }
