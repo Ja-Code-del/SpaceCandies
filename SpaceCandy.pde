@@ -6,9 +6,12 @@ Player pion;
 FuelBar energy;
 Button restartButton;
 Button quitButton;
+Button startButton;
+Button infoButton;
 PImage wallpaper;
 PFont nasa;
 PFont fontForEnd;
+PFont title;
 color bgColor;
 color playerColor;
 color rainColor;
@@ -16,13 +19,22 @@ boolean end;
 boolean start;
 boolean pause;
 boolean info;
+float transCoeff = 0;//the translation coefficient for the  Button.shadowAnime method
+float k;
+
+/************ THE SETUP NOW************
+*****To initialize many variables and objects*/
+
 void setup(){
   size(960,540);
-  wallpaper = loadImage("space.jpg");
+  wallpaper = loadImage("wallpap.JPEG");
   nasa = createFont("nasaFont.ttf",100);
   fontForEnd = createFont("HelveticaNeue", 70);
+  title = createFont("Chewy.ttf",48);
   restartButton  = new Button("RESTART",2*width/3,2*height/3,60,#1FFF2F,#ffffff); //text x y h
   quitButton  = new Button("QUIT",width/3,2*height/3,60,#FC1929,#ffffff);
+   startButton = new Button("START",width/2,4*height/6,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  infoButton = new Button("ABOUT US",width/2,4*height/6,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   /*Initialize the rains*/  
   for(int i = 0; i < rains.length; i++){
    rains[i] = new Rain(); 
