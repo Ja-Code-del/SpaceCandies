@@ -1,7 +1,8 @@
 class Button {
  String text;
- float x,y,h,w;
+ float x,y,h,w,transCoeff;
  color btColor,txtColor;
+ 
  //CONSTRUCTOR THAT WIDTH IS SETTED AUTOMATICALLY
   Button(String $text, float $x, float $y, float $h, color $btColor,color $txtColor){
     text = (" "+$text+" ");
@@ -22,6 +23,7 @@ class Button {
     w = $w;
     btColor = $btColor;
     txtColor = $txtColor;
+    transCoeff = 0;
   }
   void displayButton(){
    textFont(title);
@@ -44,6 +46,7 @@ class Button {
       transCoeff += 0.2;
     }else{
       transCoeff = 10;
+      cursor(ARROW);
     }
     pushMatrix();
     fill(128); //shadows color

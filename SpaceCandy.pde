@@ -20,7 +20,7 @@ boolean end;
 boolean start;
 boolean pause;
 boolean info;
-float transCoeff = 0;//the translation coefficient for the  Button.shadowAnime method
+//the translation coefficient for the  Button.shadowAnime method
 float k;
 
 /************ THE SETUP NOW************
@@ -35,7 +35,7 @@ void setup(){
   restartButton  = new Button("RESTART",2*width/3,2*height/3,60,#1FFF2F,#ffffff); //text x y h
   quitButton  = new Button("QUIT",width/3,2*height/3,60,#FC1929,#ffffff);
    startButton = new Button("START",width/2,4*height/6,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
-  infoButton = new Button("ABOUT US",width/2,4*height/6,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  infoButton = new Button("ABOUT US",width/2,4*height/5,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   /*Initialize the rains*/  
   for(int i = 0; i < rains.length; i++){
    rains[i] = new Rain(); 
@@ -249,6 +249,7 @@ void startMotion(){
   text("S P A C E \nC A N D I E S",width/2,height/3);
   
   startButton.displayButton();
+  infoButton.displayButton();
   
 }
   // UTILISER KEYPRESSED POUR CONTROLLER L'AFFICHAGE DES DIFFERENTES PAGES
