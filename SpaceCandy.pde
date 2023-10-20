@@ -2,6 +2,7 @@
  ET QUI TOMBE DU CIEL************/
 
 Rain[] rains = new Rain[170];
+FurtivCandy[] meteor = new FurtivCandy[100];
 Player pion;
 FuelBar energy;
 Button restartButton;
@@ -38,6 +39,9 @@ void setup(){
   /*Initialize the rains*/  
   for(int i = 0; i < rains.length; i++){
    rains[i] = new Rain(); 
+  }
+  for(int i = 0; i < meteor.length; i++){
+    meteor[i] = new FurtivCandy();
   }
   /*Initialize the player*/
   pion = new Player(width/2,35*height/36,width/14,height/36,8);
@@ -83,14 +87,8 @@ void draw(){
  ///////////// STARTING PAGE ///////////////////////
  
  if(start && !pause && !info){
-  background(0);
-  wallpaper.resize(width,height);
-  image(wallpaper,0,0);
-  textSize(height/25);
-  textAlign(CENTER,CENTER);
-  fill(#ffeeff);
-  text("\"Press 'X' to start\"",width/2,4*height/5);
-  text("\"Press 'i' to see ho to play\"",width/2,2*height/3);
+  background(#eaeaea);
+  startMotion();
  
  /////////// WHEN YOU WANT INFORMATION////////////////
  
@@ -223,6 +221,36 @@ void playIcon(){
   fill(#190019);
   triangle(2*width/5,height/3,9*width/15,height/2,2*width/5,2*height/3);
 }
+
+void startMotion(){
+  if(k < 10){
+   k += 0.25; 
+  }
+  for(int i = 0; i < meteor.length; i++){
+    meteor[i].show();
+    meteor[i].fall();
+  }
+  noStroke();
+  //THE SHADOW FIRST
+  pushMatrix();
+  fill(0);
+  translate(-k,k);
+  rect(width/2,height/3,width/2,height/4,90); //SHADOW
+  
+  popMatrix();
+  
+  fill(255);
+  rectMode(CENTER);
+  rect(width/2,height/3,width/2,height/4,90); // REAL RECT
+  fill(0);
+  textFont(title);
+  textAlign(CENTER,CENTER);
+  textSize(height/10);
+  text("S P A C E \nC A N D I E S",width/2,height/3);
+  
+  startButton.displayButton();
+  
+}
   // UTILISER KEYPRESSED POUR CONTROLLER L'AFFICHAGE DES DIFFERENTES PAGES
   void keyPressed(){
    if(key == ' '){
@@ -233,3 +261,4 @@ void playIcon(){
     info = !info; 
    }
   }
+  // UTILISATION DE MOUSEPRESSED
