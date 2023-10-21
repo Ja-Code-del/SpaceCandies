@@ -35,7 +35,12 @@ void setup(){
   nasa = createFont("nasaFont.ttf",100);
   fontForEnd = createFont("HelveticaNeue", 70);
   title = createFont("Chewy.ttf",48);
-  restartButton  = new Button("RESTART",2*width/3,2*height/3,60,#1FFF2F,#ffffff); //text x y h
+  restartButton  = new Button("RESTART", // text  TO RESTART THE GAME AFTER GAME OVER
+                              2*width/3, //x
+                              2*height/3, //y
+                              60, //w
+                              #1FFF2F, //btColor
+                              #ffffff); //txtColor
   quitButton  = new Button("QUIT",width/3,2*height/3,60,#FC1929,#ffffff);
   exitGame = new Button("EXIT GAME",width/4,4*height/5,60,#FC1929,#ffffff);
   resumeButton = new Button("RESUME",3*width/4,4*height/5,width/12,#000000,#FFFFFF);
