@@ -1,7 +1,7 @@
 /*JEU D'OBJET A EVITER
  ET QUI TOMBE DU CIEL************/
 
-Rain[] rains = new Rain[170];
+Rain[] rains = new Rain[20];
 FurtivCandy[] meteor = new FurtivCandy[100];
 Player pion;
 FuelBar energy;
@@ -35,14 +35,19 @@ void setup(){
   nasa = createFont("nasaFont.ttf",100);
   fontForEnd = createFont("HelveticaNeue", 70);
   title = createFont("Chewy.ttf",48);
-  restartButton  = new Button("RESTART", // text  TO RESTART THE GAME AFTER GAME OVER
+  restartButton  = new Button("RESTART", // text THIS BUTTON IS TO RESTART THE GAME AFTER GAME OVER
                               2*width/3, //x
                               2*height/3, //y
-                              60, //w
+                              height/9, //h
                               #1FFF2F, //btColor
                               #ffffff); //txtColor
-  quitButton  = new Button("QUIT",width/3,2*height/3,60,#FC1929,#ffffff);
-  exitGame = new Button("EXIT GAME",width/4,4*height/5,60,#FC1929,#ffffff);
+  quitButton  = new Button("QUIT", //text
+                           width/3,//x
+                           2*height/3,//y
+                           height/9,//h
+                           #FC1929, //btColor
+                           #ffffff);//txtColor
+  exitGame = new Button("EXIT GAME",width/4,4*height/5,height/9,#FC1929,#ffffff);
   resumeButton = new Button("RESUME",3*width/4,4*height/5,width/12,#000000,#FFFFFF);
   startButton = new Button("START",width/2,4*height/6,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   infoButton = new Button("ABOUT US",width/2,4*height/5,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
