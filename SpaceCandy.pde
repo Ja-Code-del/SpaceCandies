@@ -6,7 +6,9 @@ FurtivCandy[] meteor = new FurtivCandy[100];
 Player pion;
 FuelBar energy;
 Button restartButton;
+Button resumeButton;
 Button quitButton;
+Button exitGame;
 Button startButton;
 Button infoButton;
 
@@ -30,13 +32,14 @@ float k;
 
 void setup(){
   size(960,540);
-  wallpaper = loadImage("wallpap.JPEG");
   nasa = createFont("nasaFont.ttf",100);
   fontForEnd = createFont("HelveticaNeue", 70);
   title = createFont("Chewy.ttf",48);
   restartButton  = new Button("RESTART",2*width/3,2*height/3,60,#1FFF2F,#ffffff); //text x y h
   quitButton  = new Button("QUIT",width/3,2*height/3,60,#FC1929,#ffffff);
-   startButton = new Button("START",width/2,4*height/6,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  exitGame = new Button("EXIT GAME",width/4,4*height/5,60,#FC1929,#ffffff);
+  resumeButton = new Button("RESUME",3*width/4,4*height/5,width/12,#000000,#FFFFFF);
+  startButton = new Button("START",width/2,4*height/6,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   infoButton = new Button("ABOUT US",width/2,4*height/5,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   /*Initialize the rains*/  
   for(int i = 0; i < rains.length; i++){
@@ -62,7 +65,7 @@ void setup(){
 }
 
 /****************************************************/
-/************* the mighty DRAW() method**************/
+/************* the mighty DRAW() method *************/
 /***************************************************/
 void draw(){
   
@@ -71,7 +74,9 @@ void draw(){
   fill(#2BFAFA);
   rect(0,0,2*width,2*height);
   playIcon();
-  pushMatrix();
+  resumeButton.displayButton();
+  exitGame.displayButton();
+ /* pushMatrix();
   translate(-10,10);
   fill(128);
   rect(width/2,4*height/5,500,60,75);
@@ -83,7 +88,7 @@ void draw(){
   textSize(height/15);
   textAlign(CENTER,CENTER);
   fill(#FFFFFF);
-  text("\"Press space bar to resume\"",width/2,4*height/5);
+  text("\"Press space bar to resume\"",width/2,4*height/5);*/
   fill(#190019);
   textFont(fontForEnd);
   textSize(width/21);
@@ -94,19 +99,19 @@ void draw(){
  if(start && !pause && !info){
   background(#eaeaea);
   startMotion();
- 
+ }
  /////////// WHEN YOU WANT INFORMATION////////////////
  
- if(info == true){
+ if(start && !pause && info){
   background(#E6CBBC);
   textAlign(CENTER,CENTER);
   textSize(height/25);
   fill(#ffffff);
   text("Space Candy",width/2,height/6);
    }
- }
+ 
   
-  /***** What you see when the game is on means when you press x*/
+  /***** What you see when the game is on means when you press x or clic on start*/
   if(!pause && !start && !info){
   background(bgColor); //#FFF8E5);
   energy.displayFuelBar(); //display the energy bar
@@ -144,6 +149,9 @@ for(Rain i : rains){
 }
 
 /*******E N D  OF  D R A W ***********/
+
+/////// STATIC METHODS NOW///////////
+
 
 
 boolean collision(Rain r, Player p) { 
@@ -271,5 +279,7 @@ void startMotion(){
   void mousePressed(){
    if(startButton.isClicked()){
      start = false;
-   }else if(infoButton.
+   }else if(infoButton.isClicked()){
+    info = true; 
+   }
   }
