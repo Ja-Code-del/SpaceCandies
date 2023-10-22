@@ -47,9 +47,27 @@ void setup(){
                            height/9,//h
                            #FC1929, //btColor
                            #ffffff);//txtColor
-  exitGame = new Button("EXIT GAME",width/4,4*height/5,height/9,#FC1929,#ffffff);
-  resumeButton = new Button("RESUME",3*width/4,4*height/5,width/12,#000000,#FFFFFF);
-  startButton = new Button("START",width/2,4*height/6,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  exitGame = new Button("EXIT GAME",
+                         width/4,
+                         6*height/7,
+                         height/9,
+                         0.304*width,
+                         #FC1929,
+                         #ffffff);
+  resumeButton = new Button("RESUME",
+                            3*width/4,
+                            6*height/7,
+                            height/9,
+                            0.304*width,
+                            #000000,
+                            #FFFFFF);
+  startButton = new Button("START",
+                            width/2,
+                            4*height/6,
+                            height/12,
+                            0.618*width, //width of the button
+                            #000000,
+                            #FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   infoButton = new Button("ABOUT US",width/2,4*height/5,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   /*Initialize the rains*/  
   for(int i = 0; i < rains.length; i++){
