@@ -31,7 +31,7 @@ float k;
 *****To initialize many variables and objects*/
 
 void setup(){
-  size(960,540);
+  size(640,360);//960,540);
   nasa = createFont("nasaFont.ttf",100);
   fontForEnd = createFont("HelveticaNeue", 70);
   title = createFont("Chewy.ttf",48);
@@ -98,6 +98,7 @@ void setup(){
 void draw(){
   
   /********** When you press "pause"********/
+  if(pause && !start && !info){
   background(#fefefe);
   fill(#2BFAFA);
   rect(0,0,2*width,2*height);
@@ -118,9 +119,10 @@ void draw(){
   fill(#FFFFFF);
   text("\"Press space bar to resume\"",width/2,4*height/5);*/
   fill(#190019);
-  textFont(fontForEnd);
+  textFont(title);
   textSize(width/21);
   text("Score : "+ pion.score,width/2,height/6);
+  }
  
  ///////////// STARTING PAGE ///////////////////////
  
@@ -307,7 +309,16 @@ void startMotion(){
   void mousePressed(){
    if(startButton.isClicked()){
      start = false;
+     pause = false;
    }else if(infoButton.isClicked()){
     info = true; 
+   }else if(resumeButton.isClicked()){
+     start = false;
+     info = false;
+     pause = !pause;
+   }else if(exitGame.isClicked()){
+     start = true;
+     pause = false; 
+     info = false;
    }
   }
