@@ -31,11 +31,14 @@ class Rain{
   
   void show(){
     float thick = map(z, 0, 20, 2, 15);
+    strokeWeight(1.2*thick);
+    stroke(#0000FF);
+    line(x,y,x,y+3*len/2);
     strokeWeight(thick);
     stroke(rainCol);                //#717B7F);   //#9E9CAA;
     line(x,y,x,y+3*len/2);
     noStroke();
-    fill(#FFFFFF80);
+    fill(#FFFFFF);
     ellipse(x,y+3*len/2,3*thick/4,3*thick/4);
     noStroke();
   }

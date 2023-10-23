@@ -12,8 +12,6 @@ Button exitGame;
 Button startButton;
 Button infoButton;
 
-PFont nasa;
-PFont fontForEnd;
 PFont title;
 
 color bgColor;
@@ -31,9 +29,7 @@ float k;
 *****To initialize many variables and objects*/
 
 void setup(){
-  size(640,360);//960,540);
-  nasa = createFont("nasaFont.ttf",100);
-  fontForEnd = createFont("HelveticaNeue", 70);
+  size(960,540);
   title = createFont("Chewy.ttf",48);
   restartButton  = new Button("RESTART", // text THIS BUTTON IS TO RESTART THE GAME AFTER GAME OVER
                               2*width/3, //x
@@ -149,7 +145,7 @@ void draw(){
   rectMode(CENTER);
   rect(width/2,50,200,100);
   fill(#2A2E34);
-  textFont(nasa);
+  textFont(title);
   textAlign(CENTER,CENTER);
   textSize(80);
   text(pion.score,width/2,70);
@@ -227,7 +223,7 @@ void gameOver(FuelBar f){
  fill(#2BFAFA);
  rect(0,0,width,height);
  fill(#131313);
- textFont(nasa);
+ textFont(title);
  textAlign(CENTER,CENTER);
  textSize(100);
  text("GAME OVER",width/2,height/6);
@@ -235,7 +231,7 @@ void gameOver(FuelBar f){
  quitButton.displayButton();
  //INSERER LE SCORE FINAL ICI AVEC LE FONT FONTFOR END
  fill(#190019);
- textFont(fontForEnd);
+ textFont(title);
  textSize(30);
  text("Score : "+ pion.score,width/2,height/2);
 }

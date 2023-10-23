@@ -68,6 +68,6 @@ class Button {
 }
 
   void hideButton(){
-   x = 10000;
+   x = 2*width;
   }
 }
