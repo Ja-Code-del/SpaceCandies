@@ -46,7 +46,6 @@ class Button {
       transCoeff += 0.3;
     }else{
       transCoeff = 10;
-      cursor(ARROW);
     }
     pushMatrix();
     fill(128); //shadows color
@@ -68,6 +67,15 @@ class Button {
 }
 
   void hideButton(){
-   x = 2*width;
+   h = 0;
   }
+  
+  void resetButtonPosition(){
+   if(w == longButtonlength){
+   h = height/12;
+   }else if(w < longButtonlength){
+   h = height/9;
+  }
+ }
+
 }

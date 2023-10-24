@@ -1,5 +1,4 @@
-/*JEU D'OBJET A EVITER
- ET QUI TOMBE DU CIEL************/
+
 
 Rain[] rains = new Rain[20];
 FurtivCandy[] meteor = new FurtivCandy[100];
@@ -8,7 +7,7 @@ FuelBar energy;
 Button restartButton;
 Button resumeButton;
 Button quitButton;
-Button exitGame;
+Button home;
 Button startButton;
 Button infoButton;
 
@@ -24,6 +23,9 @@ boolean pause;
 boolean info;
 
 float k;
+ float shortButtonlength;
+  float longButtonlength;
+
 
 /************ THE SETUP NOW************
 *****To initialize many variables and objects*/
@@ -31,40 +33,18 @@ float k;
 void setup(){
   size(960,540);
   title = createFont("Chewy.ttf",48);
-  restartButton  = new Button("RESTART", // text THIS BUTTON IS TO RESTART THE GAME AFTER GAME OVER
-                              2*width/3, //x
-                              2*height/3, //y
-                              height/9, //h
-                              #1FFF2F, //btColor
-                              #ffffff); //txtColor
-  quitButton  = new Button("QUIT", //text
-                           width/3,//x
-                           2*height/3,//y
-                           height/9,//h
-                           #FC1929, //btColor
-                           #ffffff);//txtColor
-  exitGame = new Button("EXIT GAME",
-                         width/4,
-                         6*height/7,
-                         height/9,
-                         0.304*width,
-                         #FC1929,
-                         #ffffff);
-  resumeButton = new Button("RESUME",
-                            3*width/4,
-                            6*height/7,
-                            height/9,
-                            0.304*width,
-                            #000000,
-                            #FFFFFF);
-  startButton = new Button("START",
-                            width/2,
-                            4*height/6,
-                            height/12,
-                            0.618*width, //width of the button
-                            #000000,
-                            #FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
-  infoButton = new Button("ABOUT US",width/2,4*height/5,height/12,0.618*width,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  
+  float shortButtonlength = 0.304*width;
+  float longButtonlength = 0.618*width;
+  
+  restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
+  quitButton  = new Button("EXIT GAME",width/3, 2*height/3, height/9, #FC1929, #ffffff);//txtColor
+  home = new Button("BACK HOME", width/4, 6*height/7, height/9, shortButtonlength, #FC1929, #ffffff);
+  resumeButton = new Button("RESUME", 3*width/4, 6*height/7, height/9, shortButtonlength, #000000, #FFFFFF);
+  startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  
+  
   /*Initialize the rains*/  
   for(int i = 0; i < rains.length; i++){
    rains[i] = new Rain(); 
@@ -76,7 +56,7 @@ void setup(){
   pion = new Player(width/2,35*height/36,width/14,height/36,8);
   
   /*Initialize the energy bar*/
-  energy = new FuelBar(width,0.1);
+  energy = new FuelBar(width,1.1); 
   bgColor = #F3E5AB;     //#FBE4D8;
   playerColor = #A79E9C;
   rainColor = #7F00FF;
@@ -92,15 +72,33 @@ void setup(){
 /************* the mighty DRAW() method *************/
 /***************************************************/
 void draw(){
-  
+   
+   ///////////// STARTING PAGE ///////////////////////
+ 
+ if(start && !pause && !info){
+  cursor(ARROW);
+  background(#eaeaea);
+  startMotion();
+ }
+ 
+ /////////// WHEN YOU WANT INFORMATION////////////////
+ 
+ else if(start && !pause && info){
+  background(#E6CBBC);
+  textAlign(CENTER,CENTER);
+  textSize(height/25);
+  fill(#ffffff);
+  text("Space Candy",width/2,height/6);
+   }
+ 
   /********** When you press "pause"********/
-  if(pause && !start && !info){
+  else if(pause && !start && !info){
   background(#fefefe);
   fill(#2BFAFA);
   rect(0,0,2*width,2*height);
   playIcon();
   resumeButton.displayButton();
-  exitGame.displayButton();
+  home.displayButton();
  /* pushMatrix();
   translate(-10,10);
   fill(128);
@@ -119,26 +117,9 @@ void draw(){
   textSize(width/21);
   text("Score : "+ pion.score,width/2,height/6);
   }
- 
- ///////////// STARTING PAGE ///////////////////////
- 
- if(start && !pause && !info){
-  background(#eaeaea);
-  startMotion();
- }
- /////////// WHEN YOU WANT INFORMATION////////////////
- 
- if(start && !pause && info){
-  background(#E6CBBC);
-  textAlign(CENTER,CENTER);
-  textSize(height/25);
-  fill(#ffffff);
-  text("Space Candy",width/2,height/6);
-   }
- 
   
   /***** What you see when the game is on means when you press x or clic on start*/
-  if(!pause && !start && !info){
+  else if(!pause && !start && !info){
   background(bgColor); //#FFF8E5);
   energy.displayFuelBar(); //display the energy bar
   fill(#ffffff);
@@ -166,10 +147,10 @@ for(Rain i : rains){
   
   if(end){
    gameOver(energy); 
-  }
   
-  if(restartButton.isClicked()){
+   if(restartButton.isClicked()){
     restart(pion,energy);
+   }
   }
  }
 }
@@ -177,8 +158,6 @@ for(Rain i : rains){
 /*******E N D  OF  D R A W ***********/
 
 /////// STATIC METHODS NOW///////////
-
-
 
 boolean collision(Rain r, Player p) { 
   //fonction boolean qui retourne true si la balle satisfait la condition toucher la racket
@@ -229,7 +208,7 @@ void gameOver(FuelBar f){
  text("GAME OVER",width/2,height/6);
  restartButton.displayButton();
  quitButton.displayButton();
- //INSERER LE SCORE FINAL ICI AVEC LE FONT FONTFOR END
+ //INSERER LE SCORE FINAL ICI 
  fill(#190019);
  textFont(title);
  textSize(30);
@@ -275,7 +254,6 @@ void startMotion(){
   fill(0);
   translate(-k,k);
   rect(width/2,height/3,width/2,height/4,90); //SHADOW
-  
   popMatrix();
   
   fill(255);
@@ -288,14 +266,15 @@ void startMotion(){
   text("S P A C E \nC A N D I E S",width/2,height/3);
   
   startButton.displayButton();
-  infoButton.displayButton();
-  
+  infoButton.displayButton(); 
 }
   // UTILISER KEYPRESSED POUR CONTROLLER L'AFFICHAGE DES DIFFERENTES PAGES
   void keyPressed(){
    if(key == ' '){
        pause = !pause; 
-   } else if(key == 'x'|| key == 'X'){
+       resumeButton.resetButtonPosition();
+       home.resetButtonPosition();
+   }else if(key == 'x'|| key == 'X'){
     start = false; 
    }else if(key == 'i'|| key == 'I'){
     info = !info; 
@@ -307,14 +286,22 @@ void startMotion(){
      start = false;
      pause = false;
    }else if(infoButton.isClicked()){
-    info = true; 
+     info = true; 
    }else if(resumeButton.isClicked()){
      start = false;
      info = false;
      pause = !pause;
-   }else if(exitGame.isClicked()){
+     //resumeButton.hideButton();
+     //home.hideButton();
+   }else if(home.isClicked()){
      start = true;
      pause = false; 
      info = false;
+     restart(pion,energy);
+     startButton.resetButtonPosition();
+     infoButton.resetButtonPosition();
+   }else if(quitButton.isClicked()){
+     exitActual();
    }
   }
+  
