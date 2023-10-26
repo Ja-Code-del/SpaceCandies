@@ -66,6 +66,8 @@ class Button {
   return result;
 }
 
+ 
+
   void hideButton(){
    h = 0;
   }

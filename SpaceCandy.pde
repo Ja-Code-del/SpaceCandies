@@ -11,6 +11,7 @@ Button home;
 Button startButton;
 Button infoButton;
 Button exitButtonFromPause;
+Button restartButtonfromPause;
 
 PFont title;
 
@@ -39,6 +40,7 @@ void setup(){
   float longButtonlength = 0.618*width;
   
   restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
+  restartButtonfromPause  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
   exitButton  = new Button("EXIT GAME",width/3, 2*height/3, height/9, #FC1929, #ffffff);//txtColor
   exitButtonFromPause  = new Button("EXIT GAME",width/2, 7*height/9, height/9, #FC1929, #ffffff);//txtColor
   home = new Button("BACK HOME", width/2, 5*height/9, height/9, shortButtonlength, #000000, #ffffff);
@@ -98,10 +100,11 @@ void draw(){
   background(#fefefe);
   fill(#2BFAFA);
   rect(0,0,2*width,2*height);
-  playIcon();
+  //playIcon();
   resumeButton.displayButton();
   home.displayButton();
   exitButtonFromPause.displayButton();
+  //restartButton.setButtonPotion();
  /* pushMatrix();
   translate(-10,10);
   fill(128);
@@ -190,6 +193,10 @@ void getTheScore(FuelBar f){
   }
 }
 
+Button getCopyOf(Button b){
+
+}
+
 void increaseLength(Player p){
  if(p.score == 10){
     p.w = 73;   
@@ -275,6 +282,8 @@ void startMotion(){
   startButton.displayButton();
   infoButton.displayButton(); 
 }
+
+
   // UTILISER KEYPRESSED POUR CONTROLLER L'AFFICHAGE DES DIFFERENTES PAGES
   void keyPressed(){
    if(key == ' '){
