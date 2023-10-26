@@ -6,10 +6,11 @@ Player pion;
 FuelBar energy;
 Button restartButton;
 Button resumeButton;
-Button quitButton;
+Button exitButton;
 Button home;
 Button startButton;
 Button infoButton;
+Button exitButtonFromPause;
 
 PFont title;
 
@@ -38,9 +39,10 @@ void setup(){
   float longButtonlength = 0.618*width;
   
   restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
-  quitButton  = new Button("EXIT GAME",width/3, 2*height/3, height/9, #FC1929, #ffffff);//txtColor
-  home = new Button("BACK HOME", width/4, 6*height/7, height/9, shortButtonlength, #FC1929, #ffffff);
-  resumeButton = new Button("RESUME", 3*width/4, 6*height/7, height/9, shortButtonlength, #000000, #FFFFFF);
+  exitButton  = new Button("EXIT GAME",width/3, 2*height/3, height/9, #FC1929, #ffffff);//txtColor
+  exitButtonFromPause  = new Button("EXIT GAME",width/2, 7*height/9, height/9, #FC1929, #ffffff);//txtColor
+  home = new Button("BACK HOME", width/2, 5*height/9, height/9, shortButtonlength, #000000, #ffffff);
+  resumeButton = new Button("RESUME", width/2, height/3, height/9, shortButtonlength, #000000, #FFFFFF);
   startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   
@@ -99,6 +101,7 @@ void draw(){
   playIcon();
   resumeButton.displayButton();
   home.displayButton();
+  exitButtonFromPause.displayButton();
  /* pushMatrix();
   translate(-10,10);
   fill(128);
@@ -150,6 +153,10 @@ for(Rain i : rains){
   
    if(restartButton.isClicked()){
     restart(pion,energy);
+   }else if(exitButton.isClicked()){
+    exitActual(); 
+   } else if(exitButtonFromPause.isClicked()){
+     exitActual();
    }
   }
  }
@@ -207,7 +214,7 @@ void gameOver(FuelBar f){
  textSize(100);
  text("GAME OVER",width/2,height/6);
  restartButton.displayButton();
- quitButton.displayButton();
+ exitButton.displayButton();
  //INSERER LE SCORE FINAL ICI 
  fill(#190019);
  textFont(title);
@@ -300,8 +307,10 @@ void startMotion(){
      restart(pion,energy);
      startButton.resetButtonPosition();
      infoButton.resetButtonPosition();
-   }else if(quitButton.isClicked()){
+   }else if(exitButton.isClicked()){
      exitActual();
+   }else if(exitButtonFromPause.isClicked()){
+     exitActual(); 
    }
   }
   
