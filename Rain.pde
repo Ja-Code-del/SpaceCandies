@@ -30,7 +30,7 @@ class Rain{
   }
   
   void show(){
-    float thick = map(z, 0, 20, 2, 15);
+    float thick = map(z, 0, 20, 5, 30);
     strokeWeight(1.2*thick);
     stroke(#0000FF);
     line(x,y,x,y+3*len/2);

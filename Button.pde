@@ -58,6 +58,18 @@ class Button {
     }
   }
   
+  void setButtonPosition(float $x,float $y){
+    x = $x;
+    y = $y;
+  }
+  
+  void setButtonStyle(String label,float $w, float $h, color $btColor, color $txtColor){
+    text = label;
+    h = $h;
+    btColor = $btColor;
+    txtColor = $txtColor;
+  }
+  
   boolean isClicked(){
     boolean result = false;
     if(mousePressed && (mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2)){

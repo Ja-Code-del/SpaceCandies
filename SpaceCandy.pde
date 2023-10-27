@@ -1,4 +1,5 @@
-
+// CATCH FALLING CANDIES
+//  BY jacquel penah
 
 Rain[] rains = new Rain[20];
 FurtivCandy[] meteor = new FurtivCandy[100];
@@ -42,8 +43,8 @@ void setup(){
   restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
   //restartButtonfromPause  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
   exitButton  = new Button("EXIT GAME",width/3, 2*height/3, height/9, #FC1929, #ffffff);//txtColor
-  exitButtonFromPause  = new Button("EXIT GAME",width/2, 7*height/9, height/9, #FC1929, #ffffff);//txtColor
-  home = new Button("BACK HOME", width/2, 5*height/9, height/9, shortButtonlength, #000000, #ffffff);
+  exitButtonFromPause  = new Button("EXIT GAME",width/2, 5*height/6, height/9, #FC1929, #ffffff);//txtColor
+  home = new Button("BACK HOME", width/2, height/2, height/9, shortButtonlength, #000000, #ffffff);
   resumeButton = new Button("RESUME", width/2, height/3, height/9, shortButtonlength, #000000, #FFFFFF);
   startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
@@ -57,7 +58,7 @@ void setup(){
     meteor[i] = new FurtivCandy();
   }
   /*Initialize the player*/
-  pion = new Player(width/2,35*height/36,width/14,height/36,8);
+  pion = new Player(width/2,35*height/36,width/14,height/36,15);
   
   /*Initialize the energy bar*/
   energy = new FuelBar(width,1.1); 
@@ -97,32 +98,29 @@ void draw(){
  
   /********** When you press "pause"********/
   else if(pause && !start && !info){
+  restartButton.setButtonPosition(width/2,2*height/3);
+  restartButton.setButtonStyle("SCORE TO ZERO",shortButtonlength,height/9,#FFFF00,#190019);//float $w, float $h, color $btColor, color $txtColor
+  
   background(#fefefe);
   fill(#2BFAFA);
   rect(0,0,2*width,2*height);
   //playIcon();
-  restartButtonFromPause.getCopyOf(restartButton);
+  
+ // DISPLAY THE BUTTONS
   resumeButton.displayButton();
   home.displayButton();
   exitButtonFromPause.displayButton();
-  //restartButton.setButtonPotion();
- /* pushMatrix();
-  translate(-10,10);
-  fill(128);
-  rect(width/2,4*height/5,500,60,75);
-  popMatrix();
-  fill(#190019);
-  rectMode(CENTER);
-  rect(width/2,4*height/5,500,60,75);
- 
-  textSize(height/15);
-  textAlign(CENTER,CENTER);
-  fill(#FFFFFF);
-  text("\"Press space bar to resume\"",width/2,4*height/5);*/
+  restartButton.displayButton();
+ // DISPLAY THE SCORE AT THE TOP
   fill(#190019);
   textFont(title);
-  textSize(width/21);
+  textSize(width/15);
   text("Score : "+ pion.score,width/2,height/6);
+  
+  if(exitButtonFromPause.isClicked()){
+     exit(); 
+   }
+  
   }
   
   /***** What you see when the game is on means when you press x or clic on start*/
@@ -219,6 +217,7 @@ void gameOver(FuelBar f){
  textAlign(CENTER,CENTER);
  textSize(100);
  text("GAME OVER",width/2,height/6);
+ restartButton.setButtonPosition(2*width/3, 2*height/3);
  restartButton.displayButton();
  exitButton.displayButton();
  //INSERER LE SCORE FINAL ICI 
@@ -316,9 +315,9 @@ void startMotion(){
      startButton.resetButtonPosition();
      infoButton.resetButtonPosition();
    }else if(exitButton.isClicked()){
-     exitActual();
+     exit();
    }else if(exitButtonFromPause.isClicked()){
-     exitActual(); 
+     exit(); 
    }
   }
   
