@@ -66,7 +66,15 @@ class Button {
   return result;
 }
 
- 
+ void getCopyOf(Button b){
+ text = b.text;
+ x = b.x;
+ y = b.y;
+ h = b.h; 
+ w = b.w;
+ btColor = b.btColor;
+ txtColor = b.txtColor;
+}
 
   void hideButton(){
    h = 0;

@@ -11,7 +11,7 @@ Button home;
 Button startButton;
 Button infoButton;
 Button exitButtonFromPause;
-Button restartButtonfromPause;
+Button restartButtonFromPause;
 
 PFont title;
 
@@ -40,7 +40,7 @@ void setup(){
   float longButtonlength = 0.618*width;
   
   restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
-  restartButtonfromPause  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
+  //restartButtonfromPause  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
   exitButton  = new Button("EXIT GAME",width/3, 2*height/3, height/9, #FC1929, #ffffff);//txtColor
   exitButtonFromPause  = new Button("EXIT GAME",width/2, 7*height/9, height/9, #FC1929, #ffffff);//txtColor
   home = new Button("BACK HOME", width/2, 5*height/9, height/9, shortButtonlength, #000000, #ffffff);
@@ -101,6 +101,7 @@ void draw(){
   fill(#2BFAFA);
   rect(0,0,2*width,2*height);
   //playIcon();
+  restartButtonFromPause.getCopyOf(restartButton);
   resumeButton.displayButton();
   home.displayButton();
   exitButtonFromPause.displayButton();
@@ -193,9 +194,7 @@ void getTheScore(FuelBar f){
   }
 }
 
-Button getCopyOf(Button b){
 
-}
 
 void increaseLength(Player p){
  if(p.score == 10){
