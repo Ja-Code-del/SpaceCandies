@@ -64,6 +64,7 @@ class Button {
   }
   
   void setButtonStyle(String label,float $w, float $h, color $btColor, color $txtColor){
+    w = $w;
     text = label;
     h = $h;
     btColor = $btColor;

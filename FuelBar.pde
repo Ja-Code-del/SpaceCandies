@@ -14,7 +14,7 @@ color fuelStatus;
     rectMode(CORNER);
     fill(fuelStatus);
     rect(x,y,w,h);
-    println(w);
+    //println(w);
   }
   
   void fuelBarManager(Rain r){ //method to decrease the fuel bar

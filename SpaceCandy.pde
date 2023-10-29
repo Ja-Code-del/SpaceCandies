@@ -1,5 +1,6 @@
-// CATCH FALLING CANDIES
+//GAME CATCH FALLING CANDIES
 //  BY jacquel penah
+// Started Sept. 2023
 
 Rain[] rains = new Rain[20];
 FurtivCandy[] meteor = new FurtivCandy[100];
@@ -14,6 +15,8 @@ Button infoButton;
 Button exitButtonFromPause;
 Button restartButtonFromPause;
 
+
+
 PFont title;
 
 color bgColor;
@@ -26,8 +29,11 @@ boolean pause;
 boolean info;
 
 float k;
- float shortButtonlength;
-  float longButtonlength;
+float shortButtonlength;
+float longButtonlength;
+int record; // the record variable when a new best score occurs
+int basicBestScore; // the basic best score which zero
+int pScore;// the previous score to compare to the new score and see if there is a new champion
 
 
 /************ THE SETUP NOW************
@@ -35,14 +41,16 @@ float k;
 
 void setup(){
   size(960,540);
-  title = createFont("Chewy.ttf",48);
+  basicBestScore = 0;
+ String[] scoreData = loadStrings("data/score.txt"); //load the content of score.txt
+ pScore = int(scoreData[0]);// put it in pScore variable
+  title = createFont("data/Chewy.ttf",48);
   
   float shortButtonlength = 0.304*width;
   float longButtonlength = 0.618*width;
   
-  restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
-  //restartButtonfromPause  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #1FFF2F, #ffffff); //txtColor
-  exitButton  = new Button("EXIT GAME",width/3, 2*height/3, height/9, #FC1929, #ffffff);//txtColor
+  restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #190019, #ffffff); //txtColor,x,y,h,btColor,txtColor
+  exitButton  = new Button("EXIT GAME",width/6, 5*height/6, height/9, #FC1929, #ffffff);//txtColor
   exitButtonFromPause  = new Button("EXIT GAME",width/2, 5*height/6, height/9, #FC1929, #ffffff);//txtColor
   home = new Button("BACK HOME", width/2, height/2, height/9, shortButtonlength, #000000, #ffffff);
   resumeButton = new Button("RESUME", width/2, height/3, height/9, shortButtonlength, #000000, #FFFFFF);
@@ -71,13 +79,19 @@ void setup(){
   pause = false;
   start = true;
   info = false;
+  
+  //////////////////////////////////////
+ 
+  
 }
+
 
 /****************************************************/
 /************* the mighty DRAW() method *************/
 /***************************************************/
 void draw(){
-   
+  String[] s = {str(basicBestScore)};
+  saveStrings("data/score.txt", s);
    ///////////// STARTING PAGE ///////////////////////
  
  if(start && !pause && !info){
@@ -129,12 +143,22 @@ void draw(){
   energy.displayFuelBar(); //display the energy bar
   fill(#ffffff);
   rectMode(CENTER);
-  rect(width/2,50,200,100);
+  rect(width/2,height/7,width/3,height/6,99);
   fill(#2A2E34);
   textFont(title);
   textAlign(CENTER,CENTER);
-  textSize(80);
+  textSize(height/12);
   text(pion.score,width/2,70);
+  
+  /////////////GERER LE MEILLEUR SCORE/////////////
+  if(pion.score > basicBestScore){ //if the score is grater than the basic score
+   basicBestScore = pion.score; // then score become the new basic best Score
+  }
+  if(pion.score > pScore){ // if the score is greater than the previous score
+   record = pion.score; // then score become the record
+  }else{
+   record = pScore; // ifnot the record stay the previous score 
+  }
   
 for(Rain i : rains){  
   energy.fuelBarManager(i);
@@ -152,13 +176,12 @@ for(Rain i : rains){
   
   if(end){
    gameOver(energy); 
-  
    if(restartButton.isClicked()){
     restart(pion,energy);
    }else if(exitButton.isClicked()){
-    exitActual(); 
+    exit(); 
    } else if(exitButtonFromPause.isClicked()){
-     exitActual();
+     exit();
    }
   }
  }
@@ -188,6 +211,7 @@ void getTheScore(FuelBar f){
     if(collision(i,pion)){
       pion.score++;
       f.w += 0.2;
+      
     }
   }
 }
@@ -205,10 +229,14 @@ void increaseLength(Player p){
 }
   
 void gameOver(FuelBar f){
+  
+ 
   for(Rain i : rains){  
      i.setRainSpeed(0,0);
   }
-  f.setDecreaseRate(0);
+ f.setDecreaseRate(0);
+ 
+ 
  rectMode(CORNER);
  fill(#2BFAFA);
  rect(0,0,width,height);
@@ -217,14 +245,18 @@ void gameOver(FuelBar f){
  textAlign(CENTER,CENTER);
  textSize(100);
  text("GAME OVER",width/2,height/6);
- restartButton.setButtonPosition(2*width/3, 2*height/3);
+ restartButton.setButtonPosition(5*width/6, 5*height/6);
  restartButton.displayButton();
  exitButton.displayButton();
  //INSERER LE SCORE FINAL ICI 
+ // FIND CONDITIONS TO PRINT THE MESSAGE NEW RECORD WHEN THE SCORE IS BETTER THAN THE RECORD VARIABLE
  fill(#190019);
  textFont(title);
- textSize(30);
+ textSize(width/12);
  text("Score : "+ pion.score,width/2,height/2);
+ textFont(title);
+ textSize(width/19.42);
+ text("Best Score : "+ record,width/2,2*height/3);
 }
 
 void restart(Player p, FuelBar f){
@@ -281,7 +313,6 @@ void startMotion(){
   infoButton.displayButton(); 
 }
 
-
   // UTILISER KEYPRESSED POUR CONTROLLER L'AFFICHAGE DES DIFFERENTES PAGES
   void keyPressed(){
    if(key == ' '){
@@ -305,8 +336,6 @@ void startMotion(){
      start = false;
      info = false;
      pause = !pause;
-     //resumeButton.hideButton();
-     //home.hideButton();
    }else if(home.isClicked()){
      start = true;
      pause = false; 
