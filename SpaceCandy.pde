@@ -2,8 +2,16 @@
 //  BY jacquel penah
 // Started Sept. 2023
 
+void settings(){
+   size(960,540);
+   //fullScreen();
+   orientation(LANDSCAPE);
+   pixelDensity(2);
+   smooth();
+}
+
 Rain[] rains = new Rain[20];
-FurtivCandy[] meteor = new FurtivCandy[100];
+FurtivCandy[] meteor = new FurtivCandy[200];
 Player pion;
 FuelBar energy;
 Button restartButton;
@@ -40,15 +48,15 @@ int pScore;// the previous score to compare to the new score and see if there is
 *****To initialize many variables and objects*/
 
 void setup(){
-  size(960,540);
-  basicBestScore = 0;
+ basicBestScore = 0;
  String[] scoreData = loadStrings("data/score.txt"); //load the content of score.txt
  pScore = int(scoreData[0]);// put it in pScore variable
-  title = createFont("data/Chewy.ttf",48);
+ title = createFont("data/Chewy.ttf",48);
   
-  float shortButtonlength = 0.304*width;
-  float longButtonlength = 0.618*width;
+ float shortButtonlength = 0.304*width;
+ float longButtonlength = 0.618*width;
   
+  //THE BUTTONS////////////////
   restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #190019, #ffffff); //txtColor,x,y,h,btColor,txtColor
   exitButton  = new Button("EXIT GAME",width/6, 5*height/6, height/9, #FC1929, #ffffff);//txtColor
   exitButtonFromPause  = new Button("EXIT GAME",width/2, 5*height/6, height/9, #FC1929, #ffffff);//txtColor
@@ -56,7 +64,7 @@ void setup(){
   resumeButton = new Button("RESUME", width/2, height/3, height/9, shortButtonlength, #000000, #FFFFFF);
   startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
-  
+  ////////////////////////////////
   
   /*Initialize the rains*/  
   for(int i = 0; i < rains.length; i++){
@@ -69,7 +77,7 @@ void setup(){
   pion = new Player(width/2,35*height/36,width/14,height/36,15);
   
   /*Initialize the energy bar*/
-  energy = new FuelBar(width,1.1); 
+  energy = new FuelBar(width,0.5); // The width of the energy bar and the decrease rate
   bgColor = #F3E5AB;     //#FBE4D8;
   playerColor = #A79E9C;
   rainColor = #7F00FF;
@@ -80,9 +88,7 @@ void setup(){
   start = true;
   info = false;
   
-  //////////////////////////////////////
- 
-  
+  ////////////////////////////////////// 
 }
 
 
@@ -90,8 +96,9 @@ void setup(){
 /************* the mighty DRAW() method *************/
 /***************************************************/
 void draw(){
-  String[] s = {str(basicBestScore)};
-  saveStrings("data/score.txt", s);
+  String[] s = {str(basicBestScore)}; // store the basic best score into the s array
+  saveStrings("data/score.txt", s); // save the s array into the file score.txt
+  
    ///////////// STARTING PAGE ///////////////////////
  
  if(start && !pause && !info){
@@ -110,7 +117,7 @@ void draw(){
   text("Space Candy",width/2,height/6);
    }
  
-  /********** When you press "pause"********/
+  ///////////// PAUSE PAGE//////////////
   else if(pause && !start && !info){
   restartButton.setButtonPosition(width/2,2*height/3);
   restartButton.setButtonStyle("SCORE TO ZERO",shortButtonlength,height/9,#FFFF00,#190019);//float $w, float $h, color $btColor, color $txtColor
@@ -137,7 +144,7 @@ void draw(){
   
   }
   
-  /***** What you see when the game is on means when you press x or clic on start*/
+  ///////GAME PAGE///////////////
   else if(!pause && !start && !info){
   background(bgColor); //#FFF8E5);
   energy.displayFuelBar(); //display the energy bar
@@ -146,11 +153,11 @@ void draw(){
   rect(width/2,height/7,width/3,height/6,99);
   fill(#2A2E34);
   textFont(title);
-  textAlign(CENTER,CENTER);
-  textSize(height/12);
-  text(pion.score,width/2,70);
+  textAlign(CENTER);
+  textSize(height/10);
+  text(pion.score,width/2,height/6);
   
-  /////////////GERER LE MEILLEUR SCORE/////////////
+  /////////////MANAGE THE BEST SCORE STUFF/////////////
   if(pion.score > basicBestScore){ //if the score is grater than the basic score
    basicBestScore = pion.score; // then score become the new basic best Score
   }
@@ -229,13 +236,10 @@ void increaseLength(Player p){
 }
   
 void gameOver(FuelBar f){
-  
- 
   for(Rain i : rains){  
      i.setRainSpeed(0,0);
   }
  f.setDecreaseRate(0);
- 
  
  rectMode(CORNER);
  fill(#2BFAFA);
@@ -248,8 +252,9 @@ void gameOver(FuelBar f){
  restartButton.setButtonPosition(5*width/6, 5*height/6);
  restartButton.displayButton();
  exitButton.displayButton();
- //INSERER LE SCORE FINAL ICI 
+ //INSERT THE FINAL SCORE HERE 
  // FIND CONDITIONS TO PRINT THE MESSAGE NEW RECORD WHEN THE SCORE IS BETTER THAN THE RECORD VARIABLE
+ if(pion.score < pScore){
  fill(#190019);
  textFont(title);
  textSize(width/12);
@@ -257,6 +262,14 @@ void gameOver(FuelBar f){
  textFont(title);
  textSize(width/19.42);
  text("Best Score : "+ record,width/2,2*height/3);
+ } else if(pion.score > pScore){
+ fill(#190019);
+ textFont(title);
+ textSize(height/4);
+ text(record,width/2,height/2);
+ textSize(height/6);
+ text("Whoa! New record",width/2, 2*height/3);
+ }
 }
 
 void restart(Player p, FuelBar f){
