@@ -96,7 +96,13 @@ class Button {
   return result;
  }
 
-
+ void resetButtonPosition(){
+  if(w == longButtonlength){
+    h = height/12;
+  }else if(w < longButtonlength){
+    h = height/9;
+  }
+ }
 
 
  void getCopyOf(Button b){

@@ -26,7 +26,8 @@ Button restartButtonFromPause;
 
 
 PFont title;
-
+PFont Agbalumo;
+PFont Playpen;
 
 color bgColor;
 color playerColor;
@@ -53,18 +54,20 @@ void setup(){
  String[] scoreData = loadStrings("data/score.txt"); //load the content of score.txt
  pScore = int(scoreData[0]);// put it in pScore variable
  title = createFont("data/Chewy.ttf",48);
+ Agbalumo = createFont("data/Agbalumo.ttf",48);
+ Playpen = createFont("data/PlaypenSansLight.ttf",48);
   
  float shortButtonlength = 0.304*width;
  float longButtonlength = 0.618*width;
   
   //THE BUTTONS////////////////
-  restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #190019, #ffffff); //txtColor,x,y,h,btColor,txtColor
-  exitButton  = new Button("EXIT GAME",width/6, 5*height/6, height/9, #FC1929, #ffffff);//txtColor
-  exitButtonFromPause  = new Button("EXIT GAME",width/2, 5*height/6, height/9, #FC1929, #ffffff);//txtColor
-  home = new Button("BACK HOME", width/2, height/2, height/9, shortButtonlength, #000000, #ffffff);
-  resumeButton = new Button("RESUME", width/2, height/3, height/9, shortButtonlength, #000000, #FFFFFF);
-  startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
-  infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #190019, #ffffff,false); //txtColor,x,y,h,btColor,txtColor
+  exitButton  = new Button("EXIT GAME",width/6, 5*height/6, height/9, #FC1929, #ffffff, false);//txtColor
+  exitButtonFromPause  = new Button("EXIT GAME",width/2, 5*height/6, height/9, #FC1929, #ffffff, false);//txtColor
+  home = new Button("BACK HOME", width/2, height/2, height/9, shortButtonlength, #000000, #ffffff, false);
+  resumeButton = new Button("RESUME", width/2, height/3, height/9, shortButtonlength, #000000, #FFFFFF, false);
+  startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF, false); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF,false); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   ////////////////////////////////
   
   /*Initialize the rains*/  
@@ -103,6 +106,8 @@ void draw(){
    ///////////// STARTING PAGE ///////////////////////
  
  if(start && !pause && !info){
+  startButton.isActive = true;
+  infoButton.isActive = true;
   cursor(ARROW);
   background(#eaeaea);
   startMotion();
@@ -115,7 +120,7 @@ void draw(){
   textAlign(CENTER,CENTER);
   textSize(height/25);
   fill(#ffffff);
-  text("Space Candy",width/2,height/6);
+  text("Space Candies",width/2,height/6);
    }
  
   ///////////// PAUSE PAGE//////////////
@@ -257,7 +262,7 @@ void gameOver(FuelBar f){
  // FIND CONDITIONS TO PRINT THE MESSAGE NEW RECORD WHEN THE SCORE IS BETTER THAN THE RECORD VARIABLE
  if(pion.score < pScore){
  fill(#190019);
- textFont(title);
+ textFont(Playpen);
  textSize(width/12);
  text("Score : "+ pion.score,width/2,height/2);
  textFont(title);
@@ -265,7 +270,7 @@ void gameOver(FuelBar f){
  text("Best Score : "+ record,width/2,2*height/3);
  } else if(pion.score > pScore){
  fill(#190019);
- textFont(title);
+ textFont(Playpen);
  textSize(height/4);
  text(record,width/2,height/2);
  textSize(height/6);
@@ -309,19 +314,19 @@ void startMotion(){
   noStroke();
   //THE SHADOW FIRST
   pushMatrix();
-  fill(0);
+  fill(#C68FC5);
   translate(-k,k);
   rect(width/2,height/3,width/2,height/4,90); //SHADOW
   popMatrix();
   
-  fill(255);
+  fill(#53266B);
   rectMode(CENTER);
   rect(width/2,height/3,width/2,height/4,90); // REAL RECT
-  fill(0);
-  textFont(title);
+  fill(255);
+  textFont(Agbalumo);
   textAlign(CENTER,CENTER);
   textSize(height/10);
-  text("S P A C E \nC A N D I E S",width/2,height/3);
+  text("Space \nCandies",width/2,height/3); //S P A C E \nC A N D I E S",width/2,height/3);
   
   startButton.displayButton();
   infoButton.displayButton(); 

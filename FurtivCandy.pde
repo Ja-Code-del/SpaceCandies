@@ -25,10 +25,10 @@ class FurtivCandy{
     x += speed;
     speed += grav;
     
-    /*if(y > 10*height/11 || x > 11*width/10){
-    y = random(-20,-100);
+    if(x > width){
+    y = random(-200,-100);
     speed = map(z, 0, 20, 0.1, 0.5); 
-    }*/
+    }
   }
   
   void show(){
