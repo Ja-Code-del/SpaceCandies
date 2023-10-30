@@ -27,6 +27,7 @@ Button restartButtonFromPause;
 
 PFont title;
 
+
 color bgColor;
 color playerColor;
 color rainColor;
@@ -138,9 +139,9 @@ void draw(){
   textSize(width/15);
   text("Score : "+ pion.score,width/2,height/6);
   
-  if(exitButtonFromPause.isClicked()){
+  /*if(exitButtonFromPause.isClicked()){
      exit(); 
-   }
+   }*/
   
   }
   
@@ -185,11 +186,11 @@ for(Rain i : rains){
    gameOver(energy); 
    if(restartButton.isClicked()){
     restart(pion,energy);
-   }else if(exitButton.isClicked()){
+   }/*else if(exitButton.isClicked()){
     exit(); 
    } else if(exitButtonFromPause.isClicked()){
      exit();
-   }
+   }*/
   }
  }
 }
@@ -356,10 +357,9 @@ void startMotion(){
      restart(pion,energy);
      startButton.resetButtonPosition();
      infoButton.resetButtonPosition();
-   }else if(exitButton.isClicked()){
-     exit();
-   }else if(exitButtonFromPause.isClicked()){
-     exit(); 
    }
+   /*}else if(exitButtonFromPause.isClicked()){
+     exit(); 
+   }*/
   }
   
