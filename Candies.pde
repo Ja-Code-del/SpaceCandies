@@ -1,8 +1,8 @@
-class Rain{
+class Candies{
  float x,y,speed,len,z,grav;
  color[] col = new color[7];
- color rainCol;
-   Rain(){
+ color CandiesCol;
+   Candies(){
     x = random(width);
     y = random(-500,0);
     z = random(0,20);
@@ -15,7 +15,7 @@ class Rain{
     col[4] = #AB8FDA; // VIOLET 
     col[5] = #FF00FF; // FSHIA
     col[6] = #FFA500; // ORANGE 
-    rainCol = col[round(random(6))];
+    CandiesCol = col[round(random(6))];
     grav = map(z, 0, 20, 0, 0.008);
    }
   
@@ -35,7 +35,7 @@ class Rain{
     stroke(#0000FF);
     line(x,y,x,y+3*len/2);
     strokeWeight(thick);
-    stroke(rainCol);                //#717B7F);   //#9E9CAA;
+    stroke(CandiesCol);                //#717B7F);   //#9E9CAA;
     line(x,y,x,y+3*len/2);
     noStroke();
     fill(#FFFFFF);
@@ -43,11 +43,11 @@ class Rain{
     noStroke();
   }
   
-  void resetRain(){
+  void resetCandies(){
    y = random(-500,-50); 
    grav = map(z, 0, 20, 0, 0.008);
   }
-  void setRainSpeed(float $grav, float $speed){
+  void setCandySpeed(float $grav, float $speed){
    grav = $grav;
    speed = $speed; 
   }

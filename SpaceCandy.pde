@@ -6,11 +6,11 @@ void settings(){
    size(960,540);
    //fullScreen();
    orientation(LANDSCAPE);
-   pixelDensity(2);
+   //pixelDensity(2);
    smooth();
 }
 
-Rain[] rains = new Rain[20];
+Candies[] Candy = new Candies[20];
 FurtivCandy[] meteor = new FurtivCandy[200];
 Player pion;
 FuelBar energy;
@@ -31,7 +31,7 @@ PFont Playpen;
 
 color bgColor;
 color playerColor;
-color rainColor;
+color CandiesColor;
 
 boolean end;
 boolean start;
@@ -57,8 +57,8 @@ void setup(){
  Agbalumo = createFont("data/Agbalumo.ttf",48);
  Playpen = createFont("data/PlaypenSansLight.ttf",48);
   
- float shortButtonlength = 0.304*width;
- float longButtonlength = 0.618*width;
+ shortButtonlength = 0.304*width;
+ longButtonlength = 0.618*width;
   
   //THE BUTTONS////////////////
   restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #190019, #ffffff,false); //txtColor,x,y,h,btColor,txtColor
@@ -70,9 +70,9 @@ void setup(){
   infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF,false); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
   ////////////////////////////////
   
-  /*Initialize the rains*/  
-  for(int i = 0; i < rains.length; i++){
-   rains[i] = new Rain(); 
+  /*Initialize the Candy*/  
+  for(int i = 0; i < Candy.length; i++){
+   Candy[i] = new Candies(); 
   }
   for(int i = 0; i < meteor.length; i++){
     meteor[i] = new FurtivCandy();
@@ -84,7 +84,7 @@ void setup(){
   energy = new FuelBar(width,0.5); // The width of the energy bar and the decrease rate
   bgColor = #F3E5AB;     //#FBE4D8;
   playerColor = #A79E9C;
-  rainColor = #7F00FF;
+  CandiesColor = #7F00FF;
   
   //booleans initial
   end = false;
@@ -135,6 +135,7 @@ void draw(){
   
  // DISPLAY THE BUTTONS
   resumeButton.displayButton();
+  resumeButton.isActive = true;
   home.displayButton();
   exitButtonFromPause.displayButton();
   restartButton.displayButton();
@@ -173,19 +174,21 @@ void draw(){
    record = pScore; // ifnot the record stay the previous score 
   }
   
-for(Rain i : rains){  
+for(Candies i : Candy){  
   energy.fuelBarManager(i);
 }
-  for(int i = 0; i < rains.length; i++){
-   rains[i].fall();
-   rains[i].show();
+  for(int i = 0; i < Candy.length; i++){
+   Candy[i].fall();
+   Candy[i].show();
   }
-  getTheScore(energy); // increase the score and the energy bar when the rain ball collapse theplayer
+  getTheScore(energy); // increase the score and the energy bar when the Candies ball collapse theplayer
   increaseLength(pion);
   strokeWeight(1);  
   pion.showPLayer();
   pion.movePlayer();
   pion.stayInTheCanvas();
+  
+  println(startButton.isActive);
   
   if(end){
    gameOver(energy); 
@@ -204,14 +207,14 @@ for(Rain i : rains){
 
 /////// STATIC METHODS NOW///////////
 
-boolean collision(Rain r, Player p) { 
+boolean collision(Candies r, Player p) { 
   //fonction boolean qui retourne true si la balle satisfait la condition toucher la racket
     boolean result = false;
     if ((r.x < p.x + p.w/2) && (r.x > p.x - p.w/2) && (r.y+3*r.len/2 > p.y)){
       r.x = random(width);
       r.y = random(-100, -500);
       r.speed = map(r.z, 0, 20, 0.1, 0.3);
-      //p.playerCol = r.rainCol;
+      //p.playerCol = r.CandiesCol;
       result = true;
     }else{
     result = false;
@@ -220,7 +223,7 @@ boolean collision(Rain r, Player p) {
   }
   
 void getTheScore(FuelBar f){
-  for(Rain i : rains){ // for each iRain :)
+  for(Candies i : Candy){ // for each iCandies :)
     if(collision(i,pion)){
       pion.score++;
       f.w += 0.2;
@@ -242,8 +245,8 @@ void increaseLength(Player p){
 }
   
 void gameOver(FuelBar f){
-  for(Rain i : rains){  
-     i.setRainSpeed(0,0);
+  for(Candies i : Candy){  
+     i.setCandySpeed(0,0);
   }
  f.setDecreaseRate(0);
  
@@ -286,8 +289,8 @@ void restart(Player p, FuelBar f){
   p.setPlayerSCore(0);
   f.resetFuelBar();
   f.setDecreaseRate(0.1);
-  for(Rain i : rains){  
-     i.resetRain();
+  for(Candies i : Candy){  
+     i.resetCandies();
      f.fuelBarManager(i);
   }
 }

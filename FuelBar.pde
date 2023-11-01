@@ -17,7 +17,7 @@ color fuelStatus;
     //println(w);
   }
   
-  void fuelBarManager(Rain r){ //method to decrease the fuel bar
+  void fuelBarManager(Candies r){ //method to decrease the fuel bar
     if(r.y+3*r.len/2 > height){
      w -= decreaseRate; 
     }
