@@ -1,8 +1,10 @@
 class Button {
- String text;
+ String label;
  float x,y,h,w,transCoeff;
- color btColor,txtColor;
+ color buttonColor,labelColor;
  boolean isActive;
+ String iconUnicode;
+ PFont fontAwesome;
  
  //DEFAULT CONSTRUCTOR
  Button(){
@@ -10,44 +12,76 @@ class Button {
  }
  
  //CONSTRUCTOR THAT WIDTH IS SETTED AUTOMATICALLY
-  Button(String $text, float $x, float $y, float $h, color $btColor,color $txtColor,boolean $status){
-    text = (" "+$text+" ");
+  Button(String $text, float $x, float $y, float $h, color $buttonColor,color $txtColor,boolean $status){
+    label = (" "+$text+" ");
     x = $x;
     y = $y;
     h = $h;
-    w = 4*textWidth(text); //****//
-    btColor = $btColor;
-    txtColor = $txtColor;
+    w = 4*textWidth(label); //****//
+    buttonColor = $buttonColor;
+    labelColor = $txtColor;
     isActive = $status;
   }
   
   //CONSTRUCTOR THAT WIDTH CAN BE SET 
-  Button(String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor, boolean $status){
-    text = (" "+$text+" ");
+  Button(String $text, float $x, float $y, float $h,float $w, color $buttonColor,color $txtColor, boolean $status){
+    label = (" "+$text+" ");
     x = $x;
     y = $y;
     h = $h;
     w = $w;
-    btColor = $btColor;
-    txtColor = $txtColor;
+    buttonColor = $buttonColor;
+    labelColor = $txtColor;
     transCoeff = 0;
     isActive = $status;
   }
+  
+  //FOR BUTTON WITH ICONS
+  Button(String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor,boolean $status, String $iconUnicode){
+    label = (" "+$text+" ");
+    x = $x;
+    y = $y;
+    h = $h;
+    w = $w;
+    buttonColor = $btColor;
+    labelColor = $txtColor;
+    isActive = $status;
+    fontAwesome = createFont("data/FontAwesomeSolid900.otf",32);
+    iconUnicode = $iconUnicode;
+  }
+  
   void displayButton(){
-  // if(isActive){
+   if(isActive){
    rectMode(CENTER);
    noStroke();
    shadowAnime(); ////Manage the shadow of the button animation
-   fill(btColor);
+   fill(buttonColor);
    rect(x,y,w,h,90);
-   fill(txtColor);
+   fill(labelColor);
    textAlign(CENTER,CENTER);
    textSize(25);
-   text(text,x,y);
-   //}else{
-   // println("ERROR : this button is not active, please set isActive parameter to 'true' "); 
-   //}
+   text(label,x,y);
+   }else{
+    println("ERROR : this button is not active, please set isActive parameter to 'true' "); 
+   }
   }
+  
+  void drawIconButton(){
+   if(isActive){
+   fill(buttonColor);
+   //rectMode(CORNER);
+   rect(x,y,w,h,90);
+   fill(labelColor);
+   textFont(fontAwesome);
+   textAlign(CENTER,CENTER);
+   text(iconUnicode,x,y);
+   textSize(height/36);
+   text(label,x+w+width/96,y);
+   }else{
+     println("ERROR : Icon button is not active, please set isActive parameter to 'true' "); 
+   }
+  }
+  
    void shadowAnime(){
      boolean cursorIsOn = ((mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2));
      boolean cursorIsOff = !((mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2));
@@ -74,29 +108,25 @@ class Button {
     y = $y;
   }
   
-  void setButtonStyle(String label,float $w, float $h, color $btColor, color $txtColor){
+  void setButtonStyle(String text,float $w, float $h, color $buttonColor, color $txtColor){ // to set a different style or the style you want, mean dimensions and colors
     w = $w;
-    text = label;
+    label = text;
     h = $h;
-    btColor = $btColor;
-    txtColor = $txtColor;
+    buttonColor = $buttonColor;
+    labelColor = $txtColor;
   }
  
- boolean isClicked(){
+ boolean isClicked(){ // method that listen event and return true if a button is clicked
    boolean result = false;
     if(mousePressed && (mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2)){
-      if(isActive == true){
        result = true;
     }else{
-    println("ERROR : This button is not active, set the isActive parameter to 'true'");
-    }
- }else{
    result =  false; 
   }
   return result;
  }
 
- void resetButtonPosition(){
+ void resetButtonPosition(){ // to give to the button its initial position
   if(w == longButtonlength){
     h = height/12;
   }else if(w < longButtonlength){
@@ -106,13 +136,13 @@ class Button {
 
 
  void getCopyOf(Button b){
- text = b.text;
+ label = b.label;
  x = b.x;
  y = b.y;
  h = b.h; 
  w = b.w;
- btColor = b.btColor;
- txtColor = b.txtColor;
+ buttonColor = b.buttonColor;
+ labelColor = b.labelColor;
 }
 
  }

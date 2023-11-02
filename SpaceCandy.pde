@@ -22,12 +22,15 @@ Button startButton;
 Button infoButton;
 Button exitButtonFromPause;
 Button restartButtonFromPause;
+Button returnButton;
 
 
 
 PFont title;
 PFont Agbalumo;
 PFont Playpen;
+PFont JetBrain;
+
 
 color bgColor;
 color playerColor;
@@ -56,18 +59,36 @@ void setup(){
  title = createFont("data/Chewy.ttf",48);
  Agbalumo = createFont("data/Agbalumo.ttf",48);
  Playpen = createFont("data/PlaypenSansLight.ttf",48);
+ JetBrain = createFont("data/JetBrainsMono.ttf",32); // for user guide info page
+ 
   
  shortButtonlength = 0.304*width;
  longButtonlength = 0.618*width;
   
   //THE BUTTONS////////////////
-  restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #190019, #ffffff,false); //txtColor,x,y,h,btColor,txtColor
-  exitButton  = new Button("EXIT GAME",width/6, 5*height/6, height/9, #FC1929, #ffffff, false);//txtColor
-  exitButtonFromPause  = new Button("EXIT GAME",width/2, 5*height/6, height/9, #FC1929, #ffffff, false);//txtColor
-  home = new Button("BACK HOME", width/2, height/2, height/9, shortButtonlength, #000000, #ffffff, false);
-  resumeButton = new Button("RESUME", width/2, height/3, height/9, shortButtonlength, #000000, #FFFFFF, false);
-  startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF, false); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
-  infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF,false); //String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor
+  /*
+  >BUTTONS restartButton, exitButton are construct uppon the constructor :
+  
+  Button(String label, float x, float y, float h, color buttonColor,color labelColor, boolean isActive);
+  ::: their width are set automatically by computing the width of the label
+  
+  >BUTTONS home, resumeButton, startButton, infoButton are built on the constructor :
+  
+  Button(String label, float x, float y, float h, float w, color buttonColor,color labelColor, boolean isActive);
+  ::: their width can be adjust 
+  
+  >BUTTON returnButton is built on the constructor
+   Button(String label, float x, float y, float h, float w, color buttonColor,color labelColor, boolean isActive,String iconUnicode);
+   ::: button with a fontAwesome icon
+  */
+  
+  restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #190019, #ffffff,false); 
+  exitButton  = new Button("EXIT GAME",width/6, 5*height/6, height/9, #FC1929, #ffffff, false);
+  home = new Button("BACK HOME", width/2, 2*height/3, height/9, shortButtonlength, #000000, #ffffff, false);
+  resumeButton = new Button("RESUME", width/2, height/2, height/9, shortButtonlength, #000000, #FFFFFF, false);
+  startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF, false); 
+  infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF,false); 
+  returnButton = new Button("Return", 3*width/96, 3*height/54, height/12, width/20, #F3E5AB, #503E2C, true,"\uf137");
   ////////////////////////////////
   
   /*Initialize the Candy*/  
@@ -81,7 +102,7 @@ void setup(){
   pion = new Player(width/2,35*height/36,width/14,height/36,15);
   
   /*Initialize the energy bar*/
-  energy = new FuelBar(width,0.5); // The width of the energy bar and the decrease rate
+  energy = new FuelBar(width,5); // The width of the energy bar and the decrease rate
   bgColor = #F3E5AB;     //#FBE4D8;
   playerColor = #A79E9C;
   CandiesColor = #7F00FF;
@@ -111,22 +132,37 @@ void draw(){
   cursor(ARROW);
   background(#eaeaea);
   startMotion();
+  startButton.displayButton();
+  infoButton.displayButton(); 
  }
  
  /////////// WHEN YOU WANT INFORMATION////////////////
  
  else if(start && !pause && info){
   background(#E6CBBC);
+  returnButton.drawIconButton();
+  textFont(Playpen);
   textAlign(CENTER,CENTER);
-  textSize(height/25);
+  textSize(height/12);
   fill(#ffffff);
-  text("Space Candies",width/2,height/6);
+  text("Space Candies\n User Guide",width/2,height/6);
+   userManuals();
    }
+  
  
   ///////////// PAUSE PAGE//////////////
   else if(pause && !start && !info){
-  restartButton.setButtonPosition(width/2,2*height/3);
-  restartButton.setButtonStyle("SCORE TO ZERO",shortButtonlength,height/9,#FFFF00,#190019);//float $w, float $h, color $btColor, color $txtColor
+  restartButton.setButtonPosition(width/2,5*height/6);
+  restartButton.setButtonStyle("SCORE TO ZERO",shortButtonlength,height/9,#FFFF00,#190019);//float $w, float $h, color $buttonColor, color $txtColor
+ // exitButton.setButtonPosition(width/2, 5*height/6); 
+  //exitButton.setButtonStyle("EXIT GAME",shortButtonlength,height/9, #FC1929, #ffffff);
+  
+  //ACTIVATE NEEDED BUTTONS 
+  resumeButton.isActive = true;
+  restartButton.isActive = true;
+  home.isActive = true;
+ // exitButton.isActive = true;
+  //////////////////////
   
   background(#fefefe);
   fill(#2BFAFA);
@@ -135,21 +171,29 @@ void draw(){
   
  // DISPLAY THE BUTTONS
   resumeButton.displayButton();
-  resumeButton.isActive = true;
   home.displayButton();
-  exitButtonFromPause.displayButton();
   restartButton.displayButton();
  // DISPLAY THE SCORE AT THE TOP
   fill(#190019);
   textFont(title);
   textSize(width/15);
-  text("Score : "+ pion.score,width/2,height/6);
+  text("Your Score is : "+ pion.score,width/2,height/6 );
+  textSize(width/25);
+  text("Don't give up!",width/2,height/4 );
   
-  /*if(exitButtonFromPause.isClicked()){
-     exit(); 
-   }*/
-  
+  if(restartButton.isClicked()){
+   restart(pion,energy);
+   pause = false;
+   start = false;
+   info = false;
   }
+  if(home.isClicked()){
+    start = true;
+    pause = false; 
+    info = false;
+  }
+}
+  //////////end pause page ///////////
   
   ///////GAME PAGE///////////////
   else if(!pause && !start && !info){
@@ -188,7 +232,7 @@ for(Candies i : Candy){
   pion.movePlayer();
   pion.stayInTheCanvas();
   
-  println(startButton.isActive);
+  //println(startButton.isActive);
   
   if(end){
    gameOver(energy); 
@@ -244,7 +288,10 @@ void increaseLength(Player p){
    }
 }
   
+  ////////// GAME OVER METHOD TO MANAGE THE END OF THE GAME///////////
 void gameOver(FuelBar f){
+  exitButton.isActive = true;
+  restartButton.isActive = true;
   for(Candies i : Candy){  
      i.setCandySpeed(0,0);
   }
@@ -281,6 +328,7 @@ void gameOver(FuelBar f){
  }
 }
 
+////////////RESTART METHOD TO RESTART THE GAME//////////////
 void restart(Player p, FuelBar f){
   end = false;
   p.setPlayerPostion(width/2,35*height/36);
@@ -330,9 +378,6 @@ void startMotion(){
   textAlign(CENTER,CENTER);
   textSize(height/10);
   text("Space \nCandies",width/2,height/3); //S P A C E \nC A N D I E S",width/2,height/3);
-  
-  startButton.displayButton();
-  infoButton.displayButton(); 
 }
 
   // UTILISER KEYPRESSED POUR CONTROLLER L'AFFICHAGE DES DIFFERENTES PAGES
@@ -365,9 +410,24 @@ void startMotion(){
      restart(pion,energy);
      startButton.resetButtonPosition();
      infoButton.resetButtonPosition();
-   }
-   /*}else if(exitButtonFromPause.isClicked()){
-     exit(); 
-   }*/
+   }else if(exitButton.isClicked()){
+    noLoop();
+    exit();
+   }else if(restartButton.isClicked()){
+    restart(pion,energy);
   }
+ }
+   
+  void userManuals(){
+    textSize(height/30);
+    textAlign(LEFT,CENTER);
+    fill(#503E2C);
+    text("Objectives: Catch as many falling candies as possible to increase your score while avoiding raindrops.",width/96,19*height/54);
+    text("Controls : -Spacebar: Pause or resume the game.",width/96,22*height/54);
+    text("X: Exit the game and return to the start screen.",10*width/96,25*height/54);
+    /*text("Controls : -Spacebar: Pause or resume the game.",width/96,22*height/54);
+    text("Controls : -Spacebar: Pause or resume the game.",width/96,22*height/54);
+    text("Controls : -Spacebar: Pause or resume the game.",width/96,22*height/54);*/
+  }
+ 
   
