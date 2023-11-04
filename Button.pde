@@ -69,7 +69,7 @@ class Button {
   void drawIconButton(){
    if(isActive){
    fill(buttonColor);
-   //rectMode(CORNER);
+   //rectMode(CENTER);
    rect(x,y,w,h,90);
    fill(labelColor);
    textFont(fontAwesome);

@@ -1,0 +1,44 @@
+ Button restartButtonCopy = new Button();
+  restartButtonCopy.getCopyOf(restartButton);
+  restartButtonCopy.setButtonPosition(width/2,5*height/6);
+  restartButtonCopy.setButtonStyle("SCORE TO ZERO",shortButtonlength,height/9,#FFFF00,#190019);//float $w, float $h, color $buttonColor, color $txtColor
+  
+  //ACTIVATE NEEDED BUTTONS 
+  resumeButton.isActive = true;
+  restartButtonCopy.isActive = true;
+  home.isActive = true;
+  //exitButton.isActive = true;
+  //////////////////////
+  
+  background(#fefefe);
+  fill(#2BFAFA);
+  rect(0,0,2*width,2*height);
+ // DISPLAY THE BUTTONS
+  resumeButton.displayButton();
+  restartButtonCopy.displayButton();
+  home.displayButton();
+  //restartButton.displayButton();
+ // DISPLAY THE SCORE AT THE TOP
+  fill(#190019);
+  textFont(title);
+  textSize(width/15);
+  text("Your Score is : "+ pion.score,width/2,height/6 );
+  textSize(width/25);
+  text("Don't give up!",width/2,height/4 );
+  
+  if(restartButtonCopy.isClicked()){
+   pause = !pause;
+   restart(pion,energy);
+  }else if(home.isClicked()){ 
+    int i = 0;
+    println(i++);
+    println("yes home");
+    start = true;
+    info = false;
+    restart(pion,energy);
+    home.resetButtonPosition();
+    startButton.resetButtonPosition();
+    infoButton.resetButtonPosition();
+  }else if(resumeButton.isClicked()){
+    pause = !pause;
+  }

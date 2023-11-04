@@ -62,7 +62,7 @@ void setup(){
  JetBrain = createFont("data/JetBrainsMono.ttf",32); // for user guide info page
  
   
- shortButtonlength = 0.304*width;
+ shortButtonlength = 0.309*width;
  longButtonlength = 0.618*width;
   
   //THE BUTTONS////////////////
@@ -102,7 +102,7 @@ void setup(){
   pion = new Player(width/2,35*height/36,width/14,height/36,15);
   
   /*Initialize the energy bar*/
-  energy = new FuelBar(width,5); // The width of the energy bar and the decrease rate
+  energy = new FuelBar(width,10); // The width of the energy bar and the decrease rate
   bgColor = #F3E5AB;     //#FBE4D8;
   playerColor = #A79E9C;
   CandiesColor = #7F00FF;
@@ -127,13 +127,21 @@ void draw(){
    ///////////// STARTING PAGE ///////////////////////
  
  if(start && !pause && !info){
-  startButton.isActive = true;
-  infoButton.isActive = true;
-  cursor(ARROW);
+  //cursor(ARROW);
   background(#eaeaea);
   startMotion();
+  //ACTIVATE BUTTON
+  startButton.isActive = true;
+  infoButton.isActive = true;
   startButton.displayButton();
   infoButton.displayButton(); 
+  if(startButton.isClicked()){
+     start = false;
+  }else if(infoButton.isClicked()){
+    info = true;
+  }
+   startButton.isActive = false;
+  infoButton.isActive = false;
  }
  
  /////////// WHEN YOU WANT INFORMATION////////////////
@@ -141,6 +149,9 @@ void draw(){
  else if(start && !pause && info){
   background(#E6CBBC);
   returnButton.drawIconButton();
+  if(returnButton.isClicked()){
+   info = !info; 
+  }
   textFont(Playpen);
   textAlign(CENTER,CENTER);
   textSize(height/12);
@@ -148,55 +159,9 @@ void draw(){
   text("Space Candies\n User Guide",width/2,height/6);
    userManuals();
    }
-  
- 
-  ///////////// PAUSE PAGE//////////////
-  else if(pause && !start && !info){
-  restartButton.setButtonPosition(width/2,5*height/6);
-  restartButton.setButtonStyle("SCORE TO ZERO",shortButtonlength,height/9,#FFFF00,#190019);//float $w, float $h, color $buttonColor, color $txtColor
- // exitButton.setButtonPosition(width/2, 5*height/6); 
-  //exitButton.setButtonStyle("EXIT GAME",shortButtonlength,height/9, #FC1929, #ffffff);
-  
-  //ACTIVATE NEEDED BUTTONS 
-  resumeButton.isActive = true;
-  restartButton.isActive = true;
-  home.isActive = true;
- // exitButton.isActive = true;
-  //////////////////////
-  
-  background(#fefefe);
-  fill(#2BFAFA);
-  rect(0,0,2*width,2*height);
-  //playIcon();
-  
- // DISPLAY THE BUTTONS
-  resumeButton.displayButton();
-  home.displayButton();
-  restartButton.displayButton();
- // DISPLAY THE SCORE AT THE TOP
-  fill(#190019);
-  textFont(title);
-  textSize(width/15);
-  text("Your Score is : "+ pion.score,width/2,height/6 );
-  textSize(width/25);
-  text("Don't give up!",width/2,height/4 );
-  
-  if(restartButton.isClicked()){
-   restart(pion,energy);
-   pause = false;
-   start = false;
-   info = false;
-  }
-  if(home.isClicked()){
-    start = true;
-    pause = false; 
-    info = false;
-  }
-}
-  //////////end pause page ///////////
-  
+   
   ///////GAME PAGE///////////////
-  else if(!pause && !start && !info){
+  else if(!start && !pause && !info){
   background(bgColor); //#FFF8E5);
   energy.displayFuelBar(); //display the energy bar
   fill(#ffffff);
@@ -236,15 +201,45 @@ for(Candies i : Candy){
   
   if(end){
    gameOver(energy); 
+   restartButton.displayButton();
+   exitButton.displayButton();
    if(restartButton.isClicked()){
     restart(pion,energy);
-   }/*else if(exitButton.isClicked()){
+   }else if(exitButton.isClicked()){
     exit(); 
-   } else if(exitButtonFromPause.isClicked()){
-     exit();
-   }*/
+   } 
   }
  }
+ 
+  ///////////// PAUSE PAGE//////////////
+  else if(pause && !start && !info){
+  background(#2BFAFA);
+   // DISPLAY THE SCORE AT THE TOP
+  fill(#190019);
+  textFont(title);
+  textSize(width/15);
+  text("Your Score is : "+ pion.score,width/2,height/6 );
+  textSize(width/25);
+  text("Don't give up!",width/2,height/4 );
+  //ACTIVATE NEEDED BUTTONS 
+  resumeButton.isActive = true;
+  //restartButton.isActive = true;
+  home.isActive = true;
+  //exitButton.isActive = true;
+   // DISPLAY THE BUTTONS
+  resumeButton.displayButton();
+  //restartButton.displayButton();
+  home.displayButton();
+  //exitButton.displayButton();
+  if(resumeButton.isClicked()){
+    pause = !pause;
+  }else if(home.isClicked()){
+   start = !start; 
+  }
+}
+  //////////end OF pause page ///////////
+  
+  
 }
 
 /*******E N D  OF  D R A W ***********/
@@ -276,6 +271,10 @@ void getTheScore(FuelBar f){
   }
 }
 
+void exit() {
+  // Perform any necessary cleanup or saving before the sketch exits
+  super.exit();
+}
 
 
 void increaseLength(Player p){
@@ -342,18 +341,7 @@ void restart(Player p, FuelBar f){
      f.fuelBarManager(i);
   }
 }
-
-void playIcon(){
-  pushMatrix();
-  noStroke();
-  translate(-10,15);
-  fill(128);
-  triangle(2*width/5,height/3,9*width/15,height/2,2*width/5,2*height/3);
-  popMatrix();
-  fill(#190019);
-  triangle(2*width/5,height/3,9*width/15,height/2,2*width/5,2*height/3);
-}
-
+/////////////THE STARTING ANIMATION///////////////
 void startMotion(){
   if(k < 10){
    k += 0.25; 
@@ -380,41 +368,24 @@ void startMotion(){
   text("Space \nCandies",width/2,height/3); //S P A C E \nC A N D I E S",width/2,height/3);
 }
 
-  // UTILISER KEYPRESSED POUR CONTROLLER L'AFFICHAGE DES DIFFERENTES PAGES
-  void keyPressed(){
+ void keyPressed(){
    if(key == ' '){
        pause = !pause; 
        resumeButton.resetButtonPosition();
-       home.resetButtonPosition();
+      // home.resetButtonPosition();
    }else if(key == 'x'|| key == 'X'){
-    start = false; 
+    start = !start; 
    }else if(key == 'i'|| key == 'I'){
     info = !info; 
    }
   }
+  
   // UTILISATION DE MOUSEPRESSED
   void mousePressed(){
-   if(startButton.isClicked()){
-     start = false;
-     pause = false;
-   }else if(infoButton.isClicked()){
-     info = true; 
-   }else if(resumeButton.isClicked()){
-     start = false;
-     info = false;
-     pause = !pause;
-   }else if(home.isClicked()){
-     start = true;
-     pause = false; 
-     info = false;
-     restart(pion,energy);
-     startButton.resetButtonPosition();
-     infoButton.resetButtonPosition();
-   }else if(exitButton.isClicked()){
-    noLoop();
-    exit();
-   }else if(restartButton.isClicked()){
-    restart(pion,energy);
+   if(home.isClicked()){
+    println("home is clicked");
+    start = true;
+    //pause = false;
   }
  }
    
