@@ -118,7 +118,7 @@ class Button {
  
  boolean isClicked(){ // method that listen event and return true if a button is clicked
    boolean result = false;
-    if(mousePressed && (mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2)){
+    if(isActive && mousePressed && (mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2)){
        result = true;
     }else{
    result =  false; 

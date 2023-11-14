@@ -84,7 +84,7 @@ void setup(){
   
   restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #190019, #ffffff,false); 
   exitButton  = new Button("EXIT GAME",width/6, 5*height/6, height/9, #FC1929, #ffffff, false);
-  home = new Button("BACK HOME", width/2, 2*height/3, height/9, shortButtonlength, #000000, #ffffff, false);
+  home = new Button("BACK HOME", width/2, height/3, height/9, shortButtonlength, #000000, #ffffff, false);
   resumeButton = new Button("RESUME", width/2, height/2, height/9, shortButtonlength, #000000, #FFFFFF, false);
   startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF, false); 
   infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF,false); 
@@ -124,15 +124,18 @@ void draw(){
   String[] s = {str(basicBestScore)}; // store the basic best score into the s array
   saveStrings("data/score.txt", s); // save the s array into the file score.txt
   
+  
+  
    ///////////// STARTING PAGE ///////////////////////
  
  if(start && !pause && !info){
+   println("into start page");
+  //ACTIVATE BUTTON
+   startButton.isActive = true;
+  infoButton.isActive = true;
   //cursor(ARROW);
   background(#eaeaea);
   startMotion();
-  //ACTIVATE BUTTON
-  startButton.isActive = true;
-  infoButton.isActive = true;
   startButton.displayButton();
   infoButton.displayButton(); 
   if(startButton.isClicked()){
@@ -210,17 +213,18 @@ for(Candies i : Candy){
    } 
   }
  }
- 
-  ///////////// PAUSE PAGE//////////////
+ ///////////// PAUSE PAGE//////////////
   else if(pause && !start && !info){
   background(#2BFAFA);
    // DISPLAY THE SCORE AT THE TOP
   fill(#190019);
   textFont(title);
   textSize(width/15);
-  text("Your Score is : "+ pion.score,width/2,height/6 );
+  text("Your Score is : "+ pion.score,width/2,height/8 );
   textSize(width/25);
-  text("Don't give up!",width/2,height/4 );
+  text("Don't give up!",width/2,height/6 );
+  
+  startButton.isActive = false;
   //ACTIVATE NEEDED BUTTONS 
   resumeButton.isActive = true;
   //restartButton.isActive = true;
@@ -233,10 +237,9 @@ for(Candies i : Candy){
   //exitButton.displayButton();
   if(resumeButton.isClicked()){
     pause = !pause;
-  }else if(home.isClicked()){
-   start = !start; 
   }
 }
+  
   //////////end OF pause page ///////////
   
   
@@ -372,9 +375,10 @@ void startMotion(){
    if(key == ' '){
        pause = !pause; 
        resumeButton.resetButtonPosition();
-      // home.resetButtonPosition();
+       home.resetButtonPosition();
    }else if(key == 'x'|| key == 'X'){
     start = !start; 
+    pause = !pause;
    }else if(key == 'i'|| key == 'I'){
     info = !info; 
    }
@@ -384,8 +388,9 @@ void startMotion(){
   void mousePressed(){
    if(home.isClicked()){
     println("home is clicked");
-    start = true;
-    //pause = false;
+    start = !start;
+    pause = !pause;
+    //info = false;
   }
  }
    
