@@ -26,13 +26,14 @@ class FurtivCandy{
     speed += grav;
     
     if(x > width){
+    x = random(-width,width);
     y = random(-200,-100);
-    speed = map(z, 0, 20, 0.1, 0.5); 
+    speed = map(z, 0, 20, 0.1, 0.3); 
     }
   }
   
   void show(){
-    float thick = map(z, 0, 20, 15, 80);
+    float thick = map(z, 0, 20, 5, 80);
     strokeWeight(thick);
     stroke(FurtivCandyCol);                //#717B7F);   //#9E9CAA;
     line(x,y,x+len,y+3*len/2);

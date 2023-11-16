@@ -6,8 +6,7 @@ void settings(){
    size(960,540);
    //fullScreen();
    orientation(LANDSCAPE);
-   //pixelDensity(2);
-   smooth();
+   //pixelDensity(2)
 }
 
 Candies[] Candy = new Candies[20];
@@ -20,8 +19,6 @@ Button exitButton;
 Button home;
 Button startButton;
 Button infoButton;
-Button exitButtonFromPause;
-Button restartButtonFromPause;
 Button returnButton;
 
 
@@ -44,6 +41,7 @@ boolean info;
 float k;
 float shortButtonlength;
 float longButtonlength;
+float startButtonY;
 int record; // the record variable when a new best score occurs
 int basicBestScore; // the basic best score which zero
 int pScore;// the previous score to compare to the new score and see if there is a new champion
@@ -64,6 +62,7 @@ void setup(){
   
  shortButtonlength = 0.309*width;
  longButtonlength = 0.618*width;
+ startButtonY = 2*height/3;
   
   //THE BUTTONS////////////////
   /*
@@ -82,13 +81,13 @@ void setup(){
    ::: button with a fontAwesome icon
   */
   
-  restartButton  = new Button("RESTART", 2*width/3, 2*height/3, height/9, #190019, #ffffff,false); 
-  exitButton  = new Button("EXIT GAME",width/6, 5*height/6, height/9, #FC1929, #ffffff, false);
-  home = new Button("BACK HOME", width/2, height/3, height/9, shortButtonlength, #000000, #ffffff, false);
-  resumeButton = new Button("RESUME", width/2, height/2, height/9, shortButtonlength, #000000, #FFFFFF, false);
-  startButton = new Button("START", width/2, 4*height/6, height/12, longButtonlength, #000000, #FFFFFF, false); 
-  infoButton = new Button("ABOUT US",width/2,4*height/5,height/12, longButtonlength,#000000,#FFFFFF,false); 
-  returnButton = new Button("Return", 3*width/96, 3*height/54, height/12, width/20, #F3E5AB, #503E2C, true,"\uf137");
+  restartButton  = new Button("RESTART",25, 2*width/3, 2*height/3, height/9, #190019, #ffffff,false); 
+  exitButton  = new Button("EXIT GAME",25,width/6, 5*height/6, height/9, #FC1929, #ffffff, false);
+  home = new Button("BACK HOME",25, width/2, 88*height/96, height/9, shortButtonlength, #000000, #ffffff, false);
+  resumeButton = new Button("RESUME",25, width/2, height/2, height/9, shortButtonlength, #000000, #FFFFFF, false);
+  startButton = new Button("START",height/15, width/2, 4*height/6, height/8, shortButtonlength, #000000, #FFFFFF, false); 
+  infoButton = new Button("ABOUT US",height/15,width/2,4*height/5,height/8, shortButtonlength,#000000,#FFFFFF,false); 
+  returnButton = new Button("Return",height/36, 3*width/96, 3*height/54, height/12, width/20, #F3E5AB, #503E2C, true,"\uf137");
   ////////////////////////////////
   
   /*Initialize the Candy*/  
@@ -129,11 +128,18 @@ void draw(){
    ///////////// STARTING PAGE ///////////////////////
  
  if(start && !pause && !info){
-   println("into start page");
-  //ACTIVATE BUTTON
-   startButton.isActive = true;
+   println(startButton.isActive);
+   //DEACTIVATE no need BUTTONS
+  resumeButton.isActive = false;
+  restartButton.isActive = false;
+  home.isActive = false;
+  
+  //ACTIVATE BUTTON we need
+  startButton.isActive = true;
+  startButton.y = 2*height/3;
   infoButton.isActive = true;
-  //cursor(ARROW);
+  exitButton.isActive = true;
+ 
   background(#eaeaea);
   startMotion();
   startButton.displayButton();
@@ -143,8 +149,6 @@ void draw(){
   }else if(infoButton.isClicked()){
     info = true;
   }
-   startButton.isActive = false;
-  infoButton.isActive = false;
  }
  
  /////////// WHEN YOU WANT INFORMATION////////////////
@@ -165,6 +169,7 @@ void draw(){
    
   ///////GAME PAGE///////////////
   else if(!start && !pause && !info){
+  //startButton.hide();
   background(bgColor); //#FFF8E5);
   energy.displayFuelBar(); //display the energy bar
   fill(#ffffff);
@@ -217,27 +222,28 @@ for(Candies i : Candy){
   else if(pause && !start && !info){
   background(#2BFAFA);
    // DISPLAY THE SCORE AT THE TOP
+   Button newReturn = new Button();;
+   newReturn.getCopyOfIcon(returnButton);
+   newReturn.setLabel("RESUME");
+   newReturn.isActive = true;
+  newReturn.drawIconButton();
+  if(newReturn.isClicked()){
+   pause = !pause; 
+  }
   fill(#190019);
   textFont(title);
   textSize(width/15);
   text("Your Score is : "+ pion.score,width/2,height/8 );
-  textSize(width/25);
-  text("Don't give up!",width/2,height/6 );
-  
+ 
   startButton.isActive = false;
   //ACTIVATE NEEDED BUTTONS 
-  resumeButton.isActive = true;
-  //restartButton.isActive = true;
   home.isActive = true;
   //exitButton.isActive = true;
    // DISPLAY THE BUTTONS
-  resumeButton.displayButton();
   //restartButton.displayButton();
   home.displayButton();
   //exitButton.displayButton();
-  if(resumeButton.isClicked()){
-    pause = !pause;
-  }
+  
 }
   
   //////////end OF pause page ///////////
@@ -358,17 +364,17 @@ void startMotion(){
   pushMatrix();
   fill(#C68FC5);
   translate(-k,k);
-  rect(width/2,height/3,width/2,height/4,90); //SHADOW
+  rect(width/2,height/3,3*width/4,height/4,100); //SHADOW
   popMatrix();
   
   fill(#53266B);
   rectMode(CENTER);
-  rect(width/2,height/3,width/2,height/4,90); // REAL RECT
+  rect(width/2,height/3,3*width/4,height/4,100); // REAL RECT
   fill(255);
   textFont(Agbalumo);
   textAlign(CENTER,CENTER);
-  textSize(height/10);
-  text("Space \nCandies",width/2,height/3); //S P A C E \nC A N D I E S",width/2,height/3);
+  textSize(height/8);
+  text("Space Candies",width/2,height/3); //S P A C E \nC A N D I E S",width/2,height/3);
 }
 
  void keyPressed(){
@@ -386,12 +392,24 @@ void startMotion(){
   
   // UTILISATION DE MOUSEPRESSED
   void mousePressed(){
+   if(home.isActive){
    if(home.isClicked()){
     println("home is clicked");
     start = !start;
     pause = !pause;
     //info = false;
-  }
+    }
+   }else if(startButton.isActive){
+     if(startButton.isClicked()){
+       println("start button is clicked \n");
+       start = false;
+       startButton.isActive = false;
+     }
+   }else if(infoButton.isActive){
+     if(infoButton.isClicked()){
+       info = false;
+     }
+   }
  }
    
   void userManuals(){

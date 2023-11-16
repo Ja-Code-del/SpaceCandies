@@ -1,6 +1,6 @@
 class Button {
  String label;
- float x,y,h,w,transCoeff;
+ float x,y,h,w,transCoeff,labelSize;
  color buttonColor,labelColor;
  boolean isActive;
  String iconUnicode;
@@ -12,39 +12,42 @@ class Button {
  }
  
  //CONSTRUCTOR THAT WIDTH IS SETTED AUTOMATICALLY
-  Button(String $text, float $x, float $y, float $h, color $buttonColor,color $txtColor,boolean $status){
+  Button(String $text,float $labelSize, float $x, float $y, float $h, color $buttonColor,color $txtColor,boolean $status){
     label = (" "+$text+" ");
+    labelColor = $txtColor;
+    labelSize = $labelSize;
     x = $x;
     y = $y;
     h = $h;
     w = 4*textWidth(label); //****//
     buttonColor = $buttonColor;
-    labelColor = $txtColor;
     isActive = $status;
   }
   
   //CONSTRUCTOR THAT WIDTH CAN BE SET 
-  Button(String $text, float $x, float $y, float $h,float $w, color $buttonColor,color $txtColor, boolean $status){
+  Button(String $text,float $labelSize, float $x, float $y, float $h,float $w, color $buttonColor,color $txtColor, boolean $status){
     label = (" "+$text+" ");
+    labelColor = $txtColor;
+    labelSize = $labelSize;
     x = $x;
     y = $y;
     h = $h;
     w = $w;
     buttonColor = $buttonColor;
-    labelColor = $txtColor;
     transCoeff = 0;
     isActive = $status;
   }
   
   //FOR BUTTON WITH ICONS
-  Button(String $text, float $x, float $y, float $h,float $w, color $btColor,color $txtColor,boolean $status, String $iconUnicode){
+  Button(String $text,float $labelSize, float $x, float $y, float $h,float $w, color $btColor,color $txtColor,boolean $status, String $iconUnicode){
     label = (" "+$text+" ");
+    labelColor = $txtColor;
+    labelSize = $labelSize;
     x = $x;
     y = $y;
     h = $h;
     w = $w;
     buttonColor = $btColor;
-    labelColor = $txtColor;
     isActive = $status;
     fontAwesome = createFont("data/FontAwesomeSolid900.otf",32);
     iconUnicode = $iconUnicode;
@@ -56,10 +59,10 @@ class Button {
    noStroke();
    shadowAnime(); ////Manage the shadow of the button animation
    fill(buttonColor);
-   rect(x,y,w,h,90);
+   rect(x,y,w,h,100);
    fill(labelColor);
    textAlign(CENTER,CENTER);
-   textSize(25);
+   textSize(labelSize);
    text(label,x,y);
    }else{
     println("ERROR : this button is not active, please set isActive parameter to 'true' "); 
@@ -75,7 +78,7 @@ class Button {
    textFont(fontAwesome);
    textAlign(CENTER,CENTER);
    text(iconUnicode,x,y);
-   textSize(height/36);
+   textSize(labelSize);//height/36);
    text(label,x+w+width/96,y);
    }else{
      println("ERROR : Icon button is not active, please set isActive parameter to 'true' "); 
@@ -95,7 +98,7 @@ class Button {
     pushMatrix();
     fill(128); //shadows color
     translate(-transCoeff,transCoeff);
-    rect(x,y,w,h,90);
+    rect(x,y,w,h,100);
     popMatrix();
     }
     if(cursorIsOff){
@@ -108,6 +111,10 @@ class Button {
     y = $y;
   }
   
+  void setLabel(String $label){
+   label = $label; 
+  }
+  
   void setButtonStyle(String text,float $w, float $h, color $buttonColor, color $txtColor){ // to set a different style or the style you want, mean dimensions and colors
     w = $w;
     label = text;
@@ -118,7 +125,7 @@ class Button {
  
  boolean isClicked(){ // method that listen event and return true if a button is clicked
    boolean result = false;
-    if(isActive && mousePressed && (mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2)){
+    if(mousePressed && (mouseX >= x-w/2) && (mouseX <= x+w/2) && (mouseY >= y-h/2) && (mouseY <= y+h/2)){
        result = true;
     }else{
    result =  false; 
@@ -143,6 +150,23 @@ class Button {
  w = b.w;
  buttonColor = b.buttonColor;
  labelColor = b.labelColor;
+}
+ void getCopyOfIcon(Button b){
+ label = b.label;
+    labelColor = b.labelColor;
+    labelSize = b.labelSize;
+    x = b.x;
+    y = b.y;
+    h = b.h;
+    w = b.w;
+    buttonColor = b.buttonColor;
+    isActive = b.isActive;
+    fontAwesome = b.fontAwesome;
+    iconUnicode = b.iconUnicode;
+}
+
+void hide(){
+ y = 2*height; 
 }
 
  }
